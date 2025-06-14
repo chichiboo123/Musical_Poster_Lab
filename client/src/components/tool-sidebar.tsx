@@ -311,5 +311,58 @@ export default function ToolSidebar({
     );
   }
 
+  // Step 5: Edit/Modify
+  if (currentStep === 5) {
+    return (
+      <div className="space-y-6">
+        <Card className="border-2 border-yellow-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+              <i className="fas fa-edit mr-2 text-green-500"></i>
+              최종 수정하기
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <Button
+                onClick={() => onAddText()}
+                className="w-full little-prince-rose text-gray-700 hover:bg-pink-300"
+              >
+                <i className="fas fa-plus mr-2"></i>텍스트 추가
+              </Button>
+              
+              <div className="space-y-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  className="cursor-pointer"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        const imageUrl = event.target?.result as string;
+                        onAddImage(imageUrl);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+                <Label className="text-xs text-gray-500">이미지 업로드</Label>
+              </div>
+              
+              <div className="text-sm text-gray-600 p-3 bg-green-50 rounded-lg">
+                <p>• 모든 요소를 자유롭게 수정할 수 있습니다</p>
+                <p>• 배경색은 속성 패널에서 변경하세요</p>
+                <p>• 텍스트와 이미지를 추가하거나 편집하세요</p>
+                <p>• 완성 후 내보내기를 진행하세요</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return null;
 }

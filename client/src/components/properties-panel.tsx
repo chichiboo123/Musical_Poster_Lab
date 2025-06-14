@@ -604,33 +604,7 @@ export default function PropertiesPanel({
                 </Button>
               </div>
             </div>
-            
-            <div>
-              <Button
-                onClick={() => {
-                  // Insert performance info as text elements
-                  const infoText = [
-                    performanceInfo.date && `공연일: ${performanceInfo.date}`,
-                    performanceInfo.venue && `장소: ${performanceInfo.venue}`,
-                    performanceInfo.cast && `출연: ${performanceInfo.cast}`,
-                    performanceInfo.crew && `창작: ${performanceInfo.crew}`,
-                    performanceInfo.production && `제작: ${performanceInfo.production}`
-                  ].filter(Boolean).join('\n');
-                  
-                  if (infoText) {
-                    onAddText(`공연정보\n${infoText}`);
-                    toast({
-                      title: "성공",
-                      description: "공연 정보가 포스터에 추가되었습니다.",
-                    });
-                  }
-                }}
-                className="w-full little-prince-sunset text-white hover:bg-orange-500"
-                disabled={!performanceInfo.date && !performanceInfo.venue && !performanceInfo.cast && !performanceInfo.crew && !performanceInfo.production}
-              >
-                <i className="fas fa-plus mr-2"></i>포스터에 공연정보 추가
-              </Button>
-            </div>
+
           </CardContent>
         </Card>
 

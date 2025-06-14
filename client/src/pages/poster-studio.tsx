@@ -80,7 +80,7 @@ export default function PosterStudio() {
 
 
   const isFirstStep = currentStep === 1;
-  const isLastStep = currentStep === 4;
+  const isLastStep = currentStep === 5;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-green-50">
