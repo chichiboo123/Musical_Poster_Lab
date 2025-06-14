@@ -4,7 +4,7 @@ import { type PosterElement } from '@shared/schema';
 interface DraggableElementProps {
   element: PosterElement;
   isSelected: boolean;
-  onSelect: () => void;
+  onSelect: (e?: React.MouseEvent) => void;
   onUpdate: (updates: Partial<PosterElement>) => void;
   canvasRef: React.RefObject<HTMLElement>;
 }
@@ -26,12 +26,9 @@ export default function DraggableElement({
     e.preventDefault();
     e.stopPropagation();
 
-    onSelect();
-    setIsDragging(true);
-    setDragStart({
-      x: e.clientX - element.position.x,
-      y: e.clientY - element.position.y
-    });
+    if (!isSelected || e.ctrlKey) {
+      onSelect(e);
+    }
   };
 
   const handleContextMenu = (e: React.MouseEvent) => {
