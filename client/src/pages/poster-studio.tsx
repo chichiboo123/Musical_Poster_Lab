@@ -126,6 +126,7 @@ export default function PosterStudio() {
                 }
               }}
               onAddEmoji={handleAddEmoji}
+              onRemoveElement={removeElement}
               canvasRef={canvasRef}
               performanceInfo={performanceInfo}
               onUpdatePerformanceInfo={updatePerformanceInfo}

@@ -16,6 +16,7 @@ interface PropertiesPanelProps {
   selectedElement: PosterElement | null;
   onUpdateElement: (updates: Partial<PosterElement>) => void;
   onAddEmoji: (emoji: string) => void;
+  onRemoveElement: (elementId: string) => void;
   canvasRef: React.RefObject<HTMLElement>;
   performanceInfo: any;
   onUpdatePerformanceInfo: (info: any) => void;
@@ -26,6 +27,7 @@ export default function PropertiesPanel({
   selectedElement,
   onUpdateElement,
   onAddEmoji,
+  onRemoveElement,
   canvasRef,
   performanceInfo,
   onUpdatePerformanceInfo
@@ -354,6 +356,46 @@ export default function PropertiesPanel({
             </div>
           </CardContent>
         </Card>
+
+        {selectedElement?.type === 'emoji' && (
+          <Card className="border-2 border-yellow-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+                <i className="fas fa-cog mr-2 text-orange-500"></i>
+                이모지 속성
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label>이모지 크기: {selectedElement.style.fontSize || 48}px</Label>
+                <Slider
+                  value={[selectedElement.style.fontSize || 48]}
+                  onValueChange={([value]) => onUpdateElement({ 
+                    style: { ...selectedElement.style, fontSize: value }
+                  })}
+                  min={20}
+                  max={200}
+                  step={1}
+                  className="mt-2"
+                />
+              </div>
+              
+              <div>
+                <Button
+                  onClick={() => {
+                    // Delete selected element logic will be handled by parent component
+                    console.log('Delete element:', selectedElement.id);
+                  }}
+                  variant="destructive"
+                  size="sm"
+                  className="w-full"
+                >
+                  <i className="fas fa-trash mr-2"></i>이모지 삭제
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     );
   }
@@ -423,6 +465,33 @@ export default function PropertiesPanel({
                 onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, production: e.target.value })}
                 className="mt-1"
               />
+            </div>
+            
+            <div>
+              <Button
+                onClick={() => {
+                  // Insert performance info as text elements
+                  const infoText = [
+                    performanceInfo.date && `공연일: ${performanceInfo.date}`,
+                    performanceInfo.venue && `장소: ${performanceInfo.venue}`,
+                    performanceInfo.cast && `출연: ${performanceInfo.cast}`,
+                    performanceInfo.crew && `창작: ${performanceInfo.crew}`,
+                    performanceInfo.production && `제작: ${performanceInfo.production}`
+                  ].filter(Boolean).join('\n');
+                  
+                  if (infoText) {
+                    onAddEmoji(`공연정보\n${infoText}`);
+                    toast({
+                      title: "성공",
+                      description: "공연 정보가 포스터에 추가되었습니다.",
+                    });
+                  }
+                }}
+                className="w-full little-prince-sunset text-white hover:bg-orange-500"
+                disabled={!performanceInfo.date && !performanceInfo.venue && !performanceInfo.cast && !performanceInfo.crew && !performanceInfo.production}
+              >
+                <i className="fas fa-plus mr-2"></i>포스터에 공연정보 추가
+              </Button>
             </div>
           </CardContent>
         </Card>
