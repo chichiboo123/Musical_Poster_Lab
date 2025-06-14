@@ -66,8 +66,7 @@ export default function PosterCanvas({
               </button>
             </div>
           )}
-          <h3 className="text-lg font-do-hyeon text-gray-800 flex items-center">
-            <i className="fas fa-eye mr-2 text-blue-500"></i>
+          <h3 className="text-lg font-do-hyeon text-gray-800">
             포스터 미리보기
           </h3>
         </div>

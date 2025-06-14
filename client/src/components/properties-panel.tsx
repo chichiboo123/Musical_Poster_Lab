@@ -414,8 +414,8 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (canvasRef.current) {
-                      const canvasRect = canvasRef.current.getBoundingClientRect();
-                      const centerX = canvasRect.width / 2 - 25;
+                      const canvasWidth = canvasRef.current.offsetWidth;
+                      const centerX = (canvasWidth - 100) / 2;
                       onUpdateElement({
                         position: { ...selectedElement.position, x: centerX }
                       });

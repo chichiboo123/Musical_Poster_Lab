@@ -11,6 +11,7 @@ export default function PosterStudio() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
+  const [showOrientationSelect, setShowOrientationSelect] = useState(true);
   
   const {
     currentStep,
@@ -161,36 +162,95 @@ export default function PosterStudio() {
   const isFirstStep = currentStep === 1;
   const isLastStep = currentStep === 5;
 
+  // Orientation Selection Screen
+  if (showOrientationSelect) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-green-50 flex items-center justify-center">
+        <div className="bg-white rounded-2xl shadow-2xl p-12 border-2 border-yellow-200 max-w-md w-full mx-4">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i className="fas fa-theater-masks text-white text-2xl"></i>
+            </div>
+            <h1 className="text-2xl font-do-hyeon text-gray-800 mb-2">뮤지컬 포스터 실험실</h1>
+            <p className="text-gray-600 font-do-hyeon">포스터 방향을 선택해주세요</p>
+          </div>
+
+          <div className="space-y-4">
+            <button
+              onClick={() => {
+                setOrientation('portrait');
+                setShowOrientationSelect(false);
+              }}
+              className="w-full p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all group"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-16 bg-gray-300 rounded-lg flex items-center justify-center group-hover:bg-blue-400">
+                  <i className="fas fa-mobile-alt text-white text-xl"></i>
+                </div>
+                <div className="text-left">
+                  <h3 className="text-lg font-do-hyeon text-gray-800">세로형 포스터</h3>
+                  <p className="text-sm text-gray-600">세로 방향 포스터 제작</p>
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                setOrientation('landscape');
+                setShowOrientationSelect(false);
+              }}
+              className="w-full p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all group"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-16 h-12 bg-gray-300 rounded-lg flex items-center justify-center group-hover:bg-green-400">
+                  <i className="fas fa-tablet-alt text-white text-xl"></i>
+                </div>
+                <div className="text-left">
+                  <h3 className="text-lg font-do-hyeon text-gray-800">가로형 포스터</h3>
+                  <p className="text-sm text-gray-600">가로 방향 포스터 제작</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-green-50">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b-2 border-yellow-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center">
-                <i className="fas fa-theater-masks text-white text-xl"></i>
-              </div>
-              <div className="text-center">
-                <h1 className="text-3xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
-                <p className="text-sm text-gray-600 font-do-hyeon">Musical Poster Studio</p>
+          <div className="flex items-center h-20">
+            <div className="flex items-center justify-center flex-1">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center">
+                  <i className="fas fa-theater-masks text-white text-xl"></i>
+                </div>
+                <div className="text-center">
+                  <h1 className="text-3xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
+                  <p className="text-sm text-gray-600 font-do-hyeon">Musical Poster Studio</p>
+                </div>
               </div>
             </div>
-            <Button
-              onClick={() => {
-                if (window.confirm('모든 작업물이 사라집니다. 그래도 누르시겠습니까?')) {
-                  resetPoster();
-                  toast({
-                    title: "초기화 완료",
-                    description: "모든 작업이 초기화되었습니다.",
-                  });
-                }
-              }}
-              variant="outline"
-              className="little-prince-sunset text-white hover:bg-orange-500"
-            >
-              <i className="fas fa-home mr-2"></i>처음으로
-            </Button>
+            <div className="absolute right-4">
+              <Button
+                onClick={() => {
+                  if (window.confirm('모든 작업물이 사라집니다. 그래도 누르시겠습니까?')) {
+                    resetPoster();
+                    toast({
+                      title: "초기화 완료",
+                      description: "모든 작업이 초기화되었습니다.",
+                    });
+                  }
+                }}
+                variant="outline"
+                className="little-prince-sunset text-white hover:bg-orange-500"
+              >
+                <i className="fas fa-home mr-2"></i>처음으로
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -239,6 +299,75 @@ export default function PosterStudio() {
                 onAddEmoji={() => handleAddEmoji()}
                 onAddImage={handleAddImage}
               />
+            </div>
+          </div>
+        ) : currentStep === 4 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Performance Info Panel */}
+            <div className="lg:col-span-1">
+              <PropertiesPanel
+                currentStep={currentStep}
+                selectedElement={selectedElement || null}
+                onUpdateElement={(updates) => {
+                  if (selectedElementId) {
+                    updateElement(selectedElementId, updates);
+                  }
+                }}
+                onAddEmoji={handleAddEmoji}
+                onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
+                onAddImage={handleAddImage}
+                onRemoveElement={removeElement}
+                canvasRef={canvasRef}
+                performanceInfo={performanceInfo}
+                onUpdatePerformanceInfo={updatePerformanceInfo}
+                onBackgroundChange={updateBackground}
+              />
+            </div>
+
+            {/* Canvas Area */}
+            <div className="lg:col-span-2">
+              <PosterCanvas
+                elements={elements}
+                background={background}
+                selectedElementId={selectedElementId}
+                onSelectElement={selectElement}
+                onUpdateElement={updateElement}
+                onDeleteElement={removeElement}
+                onDuplicateElement={(elementId) => {
+                  const element = elements.find(el => el.id === elementId);
+                  if (element) {
+                    const newElement = {
+                      ...element,
+                      position: { x: element.position.x + 20, y: element.position.y + 20 }
+                    };
+                    delete (newElement as any).id;
+                    addElement(newElement);
+                  }
+                }}
+                orientation={orientation}
+                onOrientationChange={setOrientation}
+              />
+            </div>
+
+            {/* Text Properties Panel */}
+            <div className="lg:col-span-1">
+              {selectedElement && selectedElement.type === 'text' && (
+                <PropertiesPanel
+                  currentStep={99} // Force text properties display
+                  selectedElement={selectedElement}
+                  onUpdateElement={(updates) => {
+                    updateElement(selectedElement.id, updates);
+                  }}
+                  onAddEmoji={handleAddEmoji}
+                  onAddText={handleAddText}
+                  onAddImage={handleAddImage}
+                  onRemoveElement={removeElement}
+                  canvasRef={canvasRef}
+                  performanceInfo={performanceInfo}
+                  onUpdatePerformanceInfo={updatePerformanceInfo}
+                  onBackgroundChange={updateBackground}
+                />
+              )}
             </div>
           </div>
         ) : currentStep === 5 ? (
