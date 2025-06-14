@@ -29,21 +29,22 @@ export default function PosterStudio() {
     resetPoster
   } = usePosterState();
 
-  const handleAddText = () => {
+  const handleAddText = (customText?: string) => {
     const id = addElement({
       type: 'text',
-      content: '새 텍스트',
+      content: customText || '새 텍스트',
       position: { x: 200, y: 100 },
       style: {
         fontSize: 36,
         color: '#ffffff',
-        direction: 'horizontal'
+        direction: 'horizontal',
+        fontFamily: 'Do Hyeon'
       }
     });
     selectElement(id);
     toast({
       title: "텍스트 추가됨",
-      description: "새 텍스트가 포스터에 추가되었습니다.",
+      description: "텍스트가 포스터에 추가되었습니다.",
     });
   };
 
@@ -126,6 +127,7 @@ export default function PosterStudio() {
                 }
               }}
               onAddEmoji={handleAddEmoji}
+              onAddText={handleAddText}
               onRemoveElement={removeElement}
               canvasRef={canvasRef}
               performanceInfo={performanceInfo}

@@ -16,6 +16,7 @@ interface PropertiesPanelProps {
   selectedElement: PosterElement | null;
   onUpdateElement: (updates: Partial<PosterElement>) => void;
   onAddEmoji: (emoji: string) => void;
+  onAddText: (text?: string) => void;
   onRemoveElement: (elementId: string) => void;
   canvasRef: React.RefObject<HTMLElement>;
   performanceInfo: any;
@@ -27,6 +28,7 @@ export default function PropertiesPanel({
   selectedElement,
   onUpdateElement,
   onAddEmoji,
+  onAddText,
   onRemoveElement,
   canvasRef,
   performanceInfo,
@@ -251,8 +253,11 @@ export default function PropertiesPanel({
                 <div>
                   <Button
                     onClick={() => {
-                      // Delete selected element logic will be handled by parent component
-                      console.log('Delete element:', selectedElement.id);
+                      onRemoveElement(selectedElement.id);
+                      toast({
+                        title: "삭제 완료",
+                        description: "텍스트가 삭제되었습니다.",
+                      });
                     }}
                     variant="destructive"
                     size="sm"
@@ -383,8 +388,11 @@ export default function PropertiesPanel({
               <div>
                 <Button
                   onClick={() => {
-                    // Delete selected element logic will be handled by parent component
-                    console.log('Delete element:', selectedElement.id);
+                    onRemoveElement(selectedElement.id);
+                    toast({
+                      title: "삭제 완료",
+                      description: "이모지가 삭제되었습니다.",
+                    });
                   }}
                   variant="destructive"
                   size="sm"
@@ -480,7 +488,7 @@ export default function PropertiesPanel({
                   ].filter(Boolean).join('\n');
                   
                   if (infoText) {
-                    onAddEmoji(`공연정보\n${infoText}`);
+                    onAddText(`공연정보\n${infoText}`);
                     toast({
                       title: "성공",
                       description: "공연 정보가 포스터에 추가되었습니다.",
