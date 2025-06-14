@@ -7,7 +7,7 @@ import PosterStudio from "@/pages/poster-studio";
 import NotFound from "@/pages/not-found";
 
 // Get the base path from environment or use default for GitHub Pages
-const basePath = import.meta.env.VITE_BASE_PATH || (import.meta.env.PROD ? '/repository-name/' : '/');
+const basePath = import.meta.env.VITE_BASE_PATH || (import.meta.env.PROD ? `/${window.location.pathname.split('/')[1]}/` : '/');
 
 function Router() {
   return (

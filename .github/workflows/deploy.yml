@@ -26,7 +26,7 @@ jobs:
     - name: Build for GitHub Pages
       run: |
         # Build only the frontend for static hosting
-        NODE_ENV=production vite build --base=/repository-name/
+        NODE_ENV=production npm run build
       env:
         NODE_ENV: production
 
@@ -35,4 +35,4 @@ jobs:
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist/public
+        publish_dir: ./dist
