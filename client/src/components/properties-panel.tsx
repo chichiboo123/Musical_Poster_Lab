@@ -182,7 +182,7 @@ export default function PropertiesPanel({
                       style: { ...selectedElement.style, fontSize: value }
                     })}
                     min={12}
-                    max={120}
+                    max={150}
                     step={1}
                     className="mt-2"
                   />

@@ -2,12 +2,13 @@ import { useRef } from 'react';
 import { type PosterElement, type Background } from '@shared/schema';
 import { getBackgroundStyle } from '@/lib/poster-utils';
 import DraggableElement from './draggable-element';
+import React from 'react';
 
 interface PosterCanvasProps {
   elements: PosterElement[];
   background: Background;
   selectedElementId: string | null;
-  onSelectElement: (elementId: string | null) => void;
+  onSelectElement: (id: string | null) => void;
   onUpdateElement: (elementId: string, updates: Partial<PosterElement>) => void;
   onDeleteElement: (elementId: string) => void;
   onDuplicateElement: (elementId: string) => void;
@@ -15,17 +16,20 @@ interface PosterCanvasProps {
   onOrientationChange?: (orientation: 'portrait' | 'landscape') => void;
 }
 
-export default function PosterCanvas({
-  elements,
-  background,
-  selectedElementId,
-  onSelectElement,
-  onUpdateElement,
-  onDeleteElement,
-  onDuplicateElement,
-  orientation = 'portrait',
-  onOrientationChange
-}: PosterCanvasProps) {
+const PosterCanvas = React.forwardRef<HTMLDivElement, PosterCanvasProps>((
+  {
+    elements,
+    background,
+    selectedElementId,
+    onSelectElement,
+    onUpdateElement,
+    onDeleteElement,
+    onDuplicateElement,
+    orientation = 'portrait',
+    onOrientationChange
+  },
+  ref
+) => {
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const handleCanvasClick = (e: React.MouseEvent) => {
@@ -71,27 +75,29 @@ export default function PosterCanvas({
           </h3>
         </div>
       </div>
-      
+
       <div 
+        ref={ref}
+        data-poster-canvas="true"
         className="relative bg-gray-100 rounded-lg overflow-hidden" 
         style={{ 
           width: '100%',
           maxWidth: orientation === 'landscape' ? '600px' : '400px',
           aspectRatio: orientation === 'landscape' ? '1.414/1' : '1/1.414',
-          margin: '0 auto'
+          margin: '0 auto',
+          ...backgroundStyle
         }}
+        onClick={handleCanvasClick}
       >
         <div
           ref={canvasRef}
           className="absolute inset-4 rounded-lg shadow-lg overflow-hidden cursor-default transform-gpu transition-transform"
           style={{
-            ...backgroundStyle,
             transform: 'scale(var(--poster-scale, 1))',
             transformOrigin: 'top left'
           }}
-          onClick={handleCanvasClick}
         >
-          
+
           {/* Render Elements */}
           {elements
             .sort((a, b) => a.zIndex - b.zIndex)
@@ -117,4 +123,6 @@ export default function PosterCanvas({
       </div>
     </div>
   );
-}
+});
+
+export default PosterCanvas;

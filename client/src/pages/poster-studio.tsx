@@ -12,7 +12,7 @@ export default function PosterStudio() {
   const { toast } = useToast();
   const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
   const [showOrientationSelect, setShowOrientationSelect] = useState(true);
-  
+
   const {
     currentStep,
     elements,
@@ -42,7 +42,7 @@ export default function PosterStudio() {
       );
       yPosition = 420 + (performanceTexts.length * 30); // Space texts 30px apart vertically
     }
-    
+
     const id = addElement({
       type: 'text',
       content: customText || '새 텍스트',
@@ -91,10 +91,10 @@ export default function PosterStudio() {
 
   const handleExportPNG = async () => {
     if (!canvasRef.current) return;
-    
+
     try {
       const html2canvas = (await import('html2canvas')).default;
-      
+
       const canvas = await html2canvas(canvasRef.current, {
         backgroundColor: '#ffffff',
         scale: 2,
@@ -102,7 +102,7 @@ export default function PosterStudio() {
         allowTaint: true,
         logging: false
       });
-      
+
       // Create download link
       const link = document.createElement('a');
       link.download = 'poster.png';
@@ -110,7 +110,7 @@ export default function PosterStudio() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       toast({
         title: "성공",
         description: "PNG 파일이 다운로드되었습니다.",
@@ -127,31 +127,31 @@ export default function PosterStudio() {
 
   const handleExportPDF = async () => {
     if (!canvasRef.current) return;
-    
+
     try {
       const html2canvas = (await import('html2canvas')).default;
       const { jsPDF } = await import('jspdf');
-      
+
       const canvas = await html2canvas(canvasRef.current, {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
         allowTaint: true
       });
-      
+
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({
         orientation: orientation === 'landscape' ? 'landscape' : 'portrait',
         unit: 'mm',
         format: 'a4'
       });
-      
+
       const imgWidth = orientation === 'landscape' ? 297 : 210;
       const imgHeight = orientation === 'landscape' ? 210 : 297;
-      
+
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       pdf.save('poster.pdf');
-      
+
       toast({
         title: "성공",
         description: "PDF 파일이 다운로드되었습니다.",
@@ -167,10 +167,10 @@ export default function PosterStudio() {
 
   const handleCopyToClipboard = async () => {
     if (!canvasRef.current) return;
-    
+
     try {
       const html2canvas = (await import('html2canvas')).default;
-      
+
       const canvas = await html2canvas(canvasRef.current, {
         backgroundColor: '#ffffff',
         scale: 2,
@@ -178,7 +178,7 @@ export default function PosterStudio() {
         allowTaint: true,
         logging: false
       });
-      
+
       canvas.toBlob(async (blob) => {
         if (blob && navigator.clipboard && navigator.clipboard.write) {
           const item = new ClipboardItem({ 'image/png': blob });
@@ -191,7 +191,7 @@ export default function PosterStudio() {
           throw new Error('클립보드 API를 사용할 수 없습니다.');
         }
       }, 'image/png');
-      
+
     } catch (error) {
       console.error('Clipboard copy error:', error);
       toast({
@@ -369,6 +369,7 @@ export default function PosterStudio() {
             {/* Canvas Area */}
             <div className="lg:col-span-2">
               <PosterCanvas
+                ref={canvasRef}
                 elements={elements}
                 background={background}
                 selectedElementId={selectedElementId}
@@ -419,6 +420,7 @@ export default function PosterStudio() {
             <div className="flex justify-center">
               <div className="w-full max-w-2xl">
                 <PosterCanvas
+                  ref={canvasRef}
                   elements={elements}
                   background={background}
                   selectedElementId={null}
@@ -430,7 +432,7 @@ export default function PosterStudio() {
                 />
               </div>
             </div>
-            
+
             {/* Export Buttons */}
             <div className="flex justify-center space-x-4">
               <Button 
@@ -476,6 +478,7 @@ export default function PosterStudio() {
             {/* Canvas Area */}
             <div className="lg:col-span-2">
               <PosterCanvas
+                ref={canvasRef}
                 elements={elements}
                 background={background}
                 selectedElementId={selectedElementId}
