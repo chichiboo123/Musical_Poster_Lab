@@ -54,7 +54,7 @@ export default function PropertiesPanel({
 
   const handleExportPNG = async () => {
     if (!canvasRef.current) return;
-    
+
     try {
       await exportToPNG(canvasRef.current);
       toast({
@@ -72,7 +72,7 @@ export default function PropertiesPanel({
 
   const handleCopyToClipboard = async () => {
     if (!canvasRef.current) return;
-    
+
     try {
       await copyToClipboard(canvasRef.current);
       toast({
@@ -90,7 +90,7 @@ export default function PropertiesPanel({
 
   const handlePrint = async () => {
     if (!canvasRef.current) return;
-    
+
     try {
       const canvas = await html2canvas(canvasRef.current, {
         backgroundColor: '#ffffff',
@@ -98,7 +98,7 @@ export default function PropertiesPanel({
         useCORS: true,
         allowTaint: true
       });
-      
+
       const printWindow = window.open('', '_blank');
       if (printWindow) {
         printWindow.document.write(`
@@ -173,7 +173,7 @@ export default function PropertiesPanel({
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <div>
                   <Label>글꼴 크기: {selectedElement.style.fontSize || 36}px</Label>
                   <Slider
@@ -187,7 +187,7 @@ export default function PropertiesPanel({
                     className="mt-2"
                   />
                 </div>
-                
+
                 <div>
                   <Label>추천 색상</Label>
                   <div className="grid grid-cols-5 gap-2 mt-2">
@@ -207,7 +207,7 @@ export default function PropertiesPanel({
                     ))}
                   </div>
                 </div>
-                
+
                 <div>
                   <Label>사용자 지정 색상</Label>
                   <input
@@ -219,7 +219,7 @@ export default function PropertiesPanel({
                     className="w-full h-10 mt-2 rounded-lg border border-gray-300 cursor-pointer"
                   />
                 </div>
-                
+
                 <div>
                   <Label>텍스트 방향</Label>
                   <div className="grid grid-cols-3 gap-1 mt-2">
@@ -255,7 +255,7 @@ export default function PropertiesPanel({
                     </Button>
                   </div>
                 </div>
-                
+
                 <div>
                   <Label>텍스트 스타일</Label>
                   <div className="grid grid-cols-3 gap-2 mt-2">
@@ -300,7 +300,7 @@ export default function PropertiesPanel({
                     </Button>
                   </div>
                 </div>
-                
+
                 <div>
                   <Label>정렬</Label>
                   <Button
@@ -312,7 +312,7 @@ export default function PropertiesPanel({
                           const containerRect = posterContainer.getBoundingClientRect();
                           // 실제 캔버스 내부 크기 계산 (inset-4 = 16px 여백)
                           const canvasWidth = containerRect.width - 32;
-                          
+
                           // 텍스트 실제 크기 측정을 위한 임시 요소 생성
                           const measurer = document.createElement('span');
                           measurer.style.position = 'absolute';
@@ -323,13 +323,13 @@ export default function PropertiesPanel({
                           measurer.style.fontWeight = selectedElement.style.fontWeight || 'normal';
                           measurer.textContent = selectedElement.content;
                           document.body.appendChild(measurer);
-                          
+
                           const textWidth = measurer.offsetWidth;
                           document.body.removeChild(measurer);
-                          
+
                           // 정가운데 위치 계산
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                          
+                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16 - 10);
+
                           onUpdateElement({
                             position: { ...selectedElement.position, x: centerX }
                           });
@@ -343,7 +343,7 @@ export default function PropertiesPanel({
                     <i className="fas fa-align-center mr-2"></i>가운데 정렬
                   </Button>
                 </div>
-                
+
                 <div>
                   <Button
                     onClick={() => {
@@ -394,7 +394,7 @@ export default function PropertiesPanel({
                 }}
               />
             </div>
-            
+
             <div>
               <div className="flex flex-wrap gap-1 mb-2">
                 {emojiCategories.map(category => (
@@ -414,7 +414,7 @@ export default function PropertiesPanel({
                 ))}
               </div>
             </div>
-            
+
             <div className="h-64 overflow-hidden">
               <div className="grid grid-cols-6 gap-2 h-48">
                 {paginatedEmojis.map((item, index) => (
@@ -428,7 +428,7 @@ export default function PropertiesPanel({
                   </button>
                 ))}
               </div>
-              
+
               {totalPages > 1 && (
                 <div className="flex items-center justify-between mt-4">
                   <Button
@@ -478,7 +478,7 @@ export default function PropertiesPanel({
                   className="mt-2"
                 />
               </div>
-              
+
               <div>
                 <Label>정렬</Label>
                 <Button
@@ -490,7 +490,7 @@ export default function PropertiesPanel({
                         const containerRect = posterContainer.getBoundingClientRect();
                         // 실제 캔버스 내부 크기 계산
                         const canvasWidth = containerRect.width - 32;
-                        
+
                         // 이모지 실제 크기 측정
                         const measurer = document.createElement('span');
                         measurer.style.position = 'absolute';
@@ -498,13 +498,13 @@ export default function PropertiesPanel({
                         measurer.style.fontSize = `${selectedElement.style.fontSize || 48}px`;
                         measurer.textContent = selectedElement.content;
                         document.body.appendChild(measurer);
-                        
+
                         const emojiWidth = measurer.offsetWidth;
                         document.body.removeChild(measurer);
-                        
-                        // 정가운데 위치 계산
-                        const centerX = Math.max(16, (canvasWidth - emojiWidth) / 2 + 16);
-                        
+
+                        // 정가운데 위치 계산 (살짝 왼쪽으로 조정)
+                        const centerX = Math.max(16, (canvasWidth - emojiWidth) / 2 + 16 - 10);
+
                         onUpdateElement({
                           position: { ...selectedElement.position, x: centerX }
                         });
@@ -518,7 +518,7 @@ export default function PropertiesPanel({
                   <i className="fas fa-align-center mr-2"></i>가운데 정렬
                 </Button>
               </div>
-              
+
               <div>
                 <Button
                   onClick={() => {
@@ -582,7 +582,7 @@ export default function PropertiesPanel({
                 </Button>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="performance-venue">공연 장소</Label>
               <div className="flex gap-2">
@@ -611,7 +611,7 @@ export default function PropertiesPanel({
                 </Button>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="performance-cast">출연진</Label>
               <div className="flex gap-2">
@@ -640,7 +640,7 @@ export default function PropertiesPanel({
                 </Button>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="performance-crew">창작진</Label>
               <div className="flex gap-2">
@@ -669,7 +669,7 @@ export default function PropertiesPanel({
                 </Button>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="performance-production">제작사</Label>
               <div className="flex gap-2">
@@ -711,18 +711,18 @@ export default function PropertiesPanel({
                     performanceInfo.crew,
                     performanceInfo.production
                   ].filter(Boolean);
-                  
+
                   if (allInfo.length > 0) {
                     // Clear existing performance info texts first
                     const performanceTexts = elements?.filter(el => 
                       el.type === 'text' && 
                       el.style?.fontFamily === 'Noto Sans KR'
                     ) || [];
-                    
+
                     performanceTexts.forEach(el => {
                       if (el.id) onRemoveElement(el.id);
                     });
-                    
+
                     // Add new texts with proper spacing
                     allInfo.forEach((info) => {
                       onAddText(info, true);
@@ -769,7 +769,7 @@ export default function PropertiesPanel({
                 className="mt-1"
               />
             </div>
-            
+
             <div>
               <Label>글꼴 크기: {selectedElement.style.fontSize || 16}px</Label>
               <Slider
@@ -783,7 +783,7 @@ export default function PropertiesPanel({
                 className="mt-2"
               />
             </div>
-            
+
             <div>
               <Label>글꼴 서체</Label>
               <Select
@@ -921,7 +921,7 @@ export default function PropertiesPanel({
                       const containerRect = posterContainer.getBoundingClientRect();
                       // 실제 캔버스 내부 크기 계산
                       const canvasWidth = containerRect.width - 32;
-                      
+
                       // 텍스트 실제 크기 측정
                       const measurer = document.createElement('span');
                       measurer.style.position = 'absolute';
@@ -932,13 +932,13 @@ export default function PropertiesPanel({
                       measurer.style.fontWeight = selectedElement.style.fontWeight || 'normal';
                       measurer.textContent = String(selectedElement.content);
                       document.body.appendChild(measurer);
-                      
+
                       const textWidth = measurer.offsetWidth;
                       document.body.removeChild(measurer);
-                      
-                      // 정가운데 위치 계산
-                      const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                      
+
+                      // 정가운데 위치 계산 (살짝 왼쪽으로 조정)
+                      const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16 - 10);
+
                       onUpdateElement({
                         position: { ...selectedElement.position, x: centerX }
                       });
@@ -997,7 +997,7 @@ export default function PropertiesPanel({
                   className="mt-1"
                 />
               </div>
-              
+
               <div>
                 <Label>정렬</Label>
                 <Button
@@ -1009,7 +1009,7 @@ export default function PropertiesPanel({
                         const containerRect = posterContainer.getBoundingClientRect();
                         // 실제 캔버스 내부 크기 계산
                         const canvasWidth = containerRect.width - 32;
-                        
+
                         // 현재 선택된 요소의 실제 크기 계산
                         if (selectedElement.type === 'text') {
                           const measurer = document.createElement('span');
@@ -1021,11 +1021,11 @@ export default function PropertiesPanel({
                           measurer.style.fontWeight = selectedElement.style.fontWeight || 'normal';
                           measurer.textContent = String(selectedElement.content);
                           document.body.appendChild(measurer);
-                          
+
                           const textWidth = measurer.offsetWidth;
                           document.body.removeChild(measurer);
-                          
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
+
+                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16 - 10);
                           onUpdateElement({
                             position: { ...selectedElement.position, x: centerX }
                           });
@@ -1036,11 +1036,11 @@ export default function PropertiesPanel({
                           measurer.style.fontSize = `${selectedElement.style.fontSize || 48}px`;
                           measurer.textContent = selectedElement.content;
                           document.body.appendChild(measurer);
-                          
+
                           const emojiWidth = measurer.offsetWidth;
                           document.body.removeChild(measurer);
-                          
-                          const centerX = Math.max(16, (canvasWidth - emojiWidth) / 2 + 16);
+
+                          const centerX = Math.max(16, (canvasWidth - emojiWidth) / 2 + 16 - 10);
                           onUpdateElement({
                             position: { ...selectedElement.position, x: centerX }
                           });
@@ -1111,7 +1111,7 @@ export default function PropertiesPanel({
                   className="mb-2"
                 />
               </div>
-              
+
               <div className="flex flex-wrap gap-1 mb-2">
                 {emojiCategories.slice(0, 3).map(category => (
                   <Button
@@ -1129,7 +1129,7 @@ export default function PropertiesPanel({
                   </Button>
                 ))}
               </div>
-              
+
               <div className="grid grid-cols-6 gap-1 h-32 overflow-y-auto">
                 {paginatedEmojis.slice(0, 18).map((item, index) => (
                   <button
