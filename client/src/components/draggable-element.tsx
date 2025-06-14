@@ -25,7 +25,7 @@ export default function DraggableElement({
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     onSelect();
     setIsDragging(true);
     setDragStart({
@@ -37,12 +37,12 @@ export default function DraggableElement({
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     const contextMenu = document.createElement('div');
     contextMenu.className = 'fixed bg-white border border-gray-300 rounded-lg shadow-lg z-50 p-2 min-w-32';
     contextMenu.style.left = `${e.clientX}px`;
     contextMenu.style.top = `${e.clientY}px`;
-    
+
     const deleteButton = document.createElement('button');
     deleteButton.className = 'block w-full text-left px-3 py-2 text-sm hover:bg-red-50 hover:text-red-600 rounded';
     deleteButton.textContent = '삭제';
@@ -51,7 +51,7 @@ export default function DraggableElement({
       onUpdate({ shouldDelete: true } as any);
       document.body.removeChild(contextMenu);
     };
-    
+
     const copyButton = document.createElement('button');
     copyButton.className = 'block w-full text-left px-3 py-2 text-sm hover:bg-blue-50 hover:text-blue-600 rounded';
     copyButton.textContent = '복제';
@@ -60,18 +60,18 @@ export default function DraggableElement({
       onUpdate({ shouldDuplicate: true } as any);
       document.body.removeChild(contextMenu);
     };
-    
+
     contextMenu.appendChild(deleteButton);
     contextMenu.appendChild(copyButton);
     document.body.appendChild(contextMenu);
-    
+
     const removeMenu = () => {
       if (document.body.contains(contextMenu)) {
         document.body.removeChild(contextMenu);
       }
       document.removeEventListener('click', removeMenu);
     };
-    
+
     setTimeout(() => document.addEventListener('click', removeMenu), 0);
   };
 
@@ -102,7 +102,7 @@ export default function DraggableElement({
   const handleResizeStart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     setIsResizing(true);
     setResizeStart({
       size: element.style.fontSize || (element.type === 'text' ? 36 : 48),
@@ -118,9 +118,9 @@ export default function DraggableElement({
     const deltaY = e.clientY - resizeStart.y;
     const delta = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     const direction = deltaX + deltaY > 0 ? 1 : -1;
-    
+
     const newSize = Math.max(12, resizeStart.size + (delta * direction * 0.5));
-    
+
     onUpdate({
       style: { ...element.style, fontSize: newSize }
     });
@@ -130,7 +130,7 @@ export default function DraggableElement({
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
-      
+
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
@@ -142,7 +142,7 @@ export default function DraggableElement({
     if (isResizing) {
       document.addEventListener('mousemove', handleResizeMove);
       document.addEventListener('mouseup', handleMouseUp);
-      
+
       return () => {
         document.removeEventListener('mousemove', handleResizeMove);
         document.removeEventListener('mouseup', handleMouseUp);
@@ -195,9 +195,24 @@ export default function DraggableElement({
               };
               return fontMap[fontFamily] || 'do-hyeon-regular';
             };
-            
+
             return (
-              <span className={getFontClass(element.style.fontFamily || 'Do Hyeon')}>
+              <span 
+              style={{
+            fontSize: element.style.fontSize || (element.type === 'emoji' ? 48 : 16),
+            color: element.style.color || '#000000',
+            fontFamily: element.style.fontFamily || 'Do Hyeon',
+            fontWeight: element.style.fontWeight || 'normal',
+            fontStyle: element.style.fontStyle || 'normal',
+            textShadow: element.style.textShadow || 'none',
+            writingMode: element.style.direction === 'vertical' ? 'vertical-rl' : 'horizontal-tb',
+            transform: element.style.rotation ? `rotate(${element.style.rotation}deg)` : undefined,
+            transformOrigin: 'center',
+            whiteSpace: 'nowrap',
+            userSelect: 'none',
+            pointerEvents: 'none'
+          }}
+              className={getFontClass(element.style.fontFamily || 'Do Hyeon')}>
                 {String(element.content)}
               </span>
             );
@@ -218,7 +233,7 @@ export default function DraggableElement({
             return <span>{String(element.content)}</span>;
           }
         })()}
-        
+
         {isSelected && (
           <div className="absolute -inset-2 border-2 border-dashed border-white/50 rounded pointer-events-none">
             <div 

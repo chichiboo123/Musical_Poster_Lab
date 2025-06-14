@@ -257,23 +257,75 @@ export default function PropertiesPanel({
                 </div>
                 
                 <div>
+                  <Label>텍스트 스타일</Label>
+                  <div className="grid grid-cols-3 gap-2 mt-2">
+                    <Button
+                      variant={selectedElement.style.fontWeight === 'bold' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => onUpdateElement({ 
+                        style: { 
+                          ...selectedElement.style, 
+                          fontWeight: selectedElement.style.fontWeight === 'bold' ? 'normal' : 'bold'
+                        }
+                      })}
+                      className={selectedElement.style.fontWeight === 'bold' ? 'little-prince-gold text-gray-700' : ''}
+                    >
+                      <i className="fas fa-bold"></i>
+                    </Button>
+                    <Button
+                      variant={selectedElement.style.fontStyle === 'italic' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => onUpdateElement({ 
+                        style: { 
+                          ...selectedElement.style, 
+                          fontStyle: selectedElement.style.fontStyle === 'italic' ? 'normal' : 'italic'
+                        }
+                      })}
+                      className={selectedElement.style.fontStyle === 'italic' ? 'little-prince-gold text-gray-700' : ''}
+                    >
+                      <i className="fas fa-italic"></i>
+                    </Button>
+                    <Button
+                      variant={selectedElement.style.textShadow ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => onUpdateElement({ 
+                        style: { 
+                          ...selectedElement.style, 
+                          textShadow: selectedElement.style.textShadow ? undefined : '2px 2px 4px rgba(0,0,0,0.3)'
+                        }
+                      })}
+                      className={selectedElement.style.textShadow ? 'little-prince-gold text-gray-700' : ''}
+                    >
+                      <i className="fas fa-eye"></i>
+                    </Button>
+                  </div>
+                </div>
+                
+                <div>
                   <Label>정렬</Label>
                   <Button
                     onClick={() => {
                       if (canvasRef.current) {
-                        // 캔버스의 실제 내부 크기 계산 (inset-4 padding 16px 제외)
-                        const canvasRect = canvasRef.current.getBoundingClientRect();
-                        const actualCanvasWidth = canvasRect.width;
-                        
-                        // 텍스트 크기에 따른 동적 너비 계산
-                        const fontSize = selectedElement.style.fontSize || 36;
-                        const textLength = selectedElement.content.length;
-                        const estimatedWidth = Math.min(textLength * (fontSize * 0.6), actualCanvasWidth * 0.8);
-                        
-                        const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
-                        onUpdateElement({
-                          position: { ...selectedElement.position, x: centerX }
-                        });
+                        // 포스터 캔버스의 실제 컨테이너 찾기
+                        const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
+                        if (posterContainer) {
+                          const containerRect = posterContainer.getBoundingClientRect();
+                          // 실제 캔버스 내부 크기 (inset-4로 인한 16px 여백 제외)
+                          const actualCanvasWidth = containerRect.width - 32;
+                          
+                          // 텍스트 실제 렌더링 크기 추정
+                          const fontSize = selectedElement.style.fontSize || 36;
+                          const textLength = selectedElement.content.length;
+                          const charWidth = fontSize * 0.55; // 한글 기준 문자 너비
+                          const estimatedWidth = textLength * charWidth;
+                          
+                          // 정가운데 위치 계산 (여백 16px 고려)
+                          const centerX = Math.max(16, (actualCanvasWidth - estimatedWidth) / 2 + 16);
+                          
+                          onUpdateElement({
+                            position: { ...selectedElement.position, x: centerX }
+                          });
+                        }
                       }
                     }}
                     size="sm"
@@ -424,17 +476,23 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (canvasRef.current) {
-                      const canvasRect = canvasRef.current.getBoundingClientRect();
-                      const actualCanvasWidth = canvasRect.width;
-                      
-                      // 이모지 크기에 따른 동적 너비 계산
-                      const emojiSize = selectedElement.style.fontSize || 48;
-                      const estimatedWidth = emojiSize;
-                      
-                      const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
-                      onUpdateElement({
-                        position: { ...selectedElement.position, x: centerX }
-                      });
+                      // 포스터 캔버스의 실제 컨테이너 찾기
+                      const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
+                      if (posterContainer) {
+                        const containerRect = posterContainer.getBoundingClientRect();
+                        // 실제 캔버스 내부 크기 (inset-4로 인한 16px 여백 제외)
+                        const actualCanvasWidth = containerRect.width - 32;
+                        
+                        // 이모지 크기
+                        const emojiSize = selectedElement.style.fontSize || 48;
+                        
+                        // 정가운데 위치 계산 (여백 16px 고려)
+                        const centerX = Math.max(16, (actualCanvasWidth - emojiSize) / 2 + 16);
+                        
+                        onUpdateElement({
+                          position: { ...selectedElement.position, x: centerX }
+                        });
+                      }
                     }
                   }}
                   size="sm"
@@ -796,18 +854,26 @@ export default function PropertiesPanel({
               <Button
                 onClick={() => {
                   if (canvasRef.current) {
-                    const canvasRect = canvasRef.current.getBoundingClientRect();
-                    const actualCanvasWidth = canvasRect.width;
-                    
-                    // 공연정보 텍스트 크기에 따른 동적 너비 계산
-                    const fontSize = selectedElement.style.fontSize || 16;
-                    const textLength = String(selectedElement.content).length;
-                    const estimatedWidth = Math.min(textLength * (fontSize * 0.5), actualCanvasWidth * 0.9);
-                    
-                    const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
-                    onUpdateElement({
-                      position: { ...selectedElement.position, x: centerX }
-                    });
+                    // 포스터 캔버스의 실제 컨테이너 찾기
+                    const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
+                    if (posterContainer) {
+                      const containerRect = posterContainer.getBoundingClientRect();
+                      // 실제 캔버스 내부 크기 (inset-4로 인한 16px 여백 제외)
+                      const actualCanvasWidth = containerRect.width - 32;
+                      
+                      // 공연정보 텍스트 실제 렌더링 크기 추정
+                      const fontSize = selectedElement.style.fontSize || 16;
+                      const textLength = String(selectedElement.content).length;
+                      const charWidth = fontSize * 0.5; // 작은 텍스트 기준
+                      const estimatedWidth = textLength * charWidth;
+                      
+                      // 정가운데 위치 계산 (여백 16px 고려)
+                      const centerX = Math.max(16, (actualCanvasWidth - estimatedWidth) / 2 + 16);
+                      
+                      onUpdateElement({
+                        position: { ...selectedElement.position, x: centerX }
+                      });
+                    }
                   }
                 }}
                 size="sm"
@@ -868,24 +934,30 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (canvasRef.current) {
-                      const canvasRect = canvasRef.current.getBoundingClientRect();
-                      const actualCanvasWidth = canvasRect.width;
-                      
-                      // 현재 선택된 요소의 실제 크기 계산
-                      if (selectedElement.type === 'text') {
-                        const fontSize = selectedElement.style.fontSize || 16;
-                        const textLength = String(selectedElement.content).length;
-                        const estimatedWidth = Math.min(textLength * (fontSize * 0.5), actualCanvasWidth * 0.9);
-                        const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
-                        onUpdateElement({
-                          position: { ...selectedElement.position, x: centerX }
-                        });
-                      } else if (selectedElement.type === 'emoji') {
-                        const emojiSize = selectedElement.style.fontSize || 48;
-                        const centerX = Math.max(0, (actualCanvasWidth - emojiSize) / 2);
-                        onUpdateElement({
-                          position: { ...selectedElement.position, x: centerX }
-                        });
+                      // 포스터 캔버스의 실제 컨테이너 찾기
+                      const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
+                      if (posterContainer) {
+                        const containerRect = posterContainer.getBoundingClientRect();
+                        // 실제 캔버스 내부 크기 (inset-4로 인한 16px 여백 제외)
+                        const actualCanvasWidth = containerRect.width - 32;
+                        
+                        // 현재 선택된 요소의 실제 크기 계산
+                        if (selectedElement.type === 'text') {
+                          const fontSize = selectedElement.style.fontSize || 16;
+                          const textLength = String(selectedElement.content).length;
+                          const charWidth = fontSize * 0.5;
+                          const estimatedWidth = textLength * charWidth;
+                          const centerX = Math.max(16, (actualCanvasWidth - estimatedWidth) / 2 + 16);
+                          onUpdateElement({
+                            position: { ...selectedElement.position, x: centerX }
+                          });
+                        } else if (selectedElement.type === 'emoji') {
+                          const emojiSize = selectedElement.style.fontSize || 48;
+                          const centerX = Math.max(16, (actualCanvasWidth - emojiSize) / 2 + 16);
+                          onUpdateElement({
+                            position: { ...selectedElement.position, x: centerX }
+                          });
+                        }
                       }
                     }
                   }}

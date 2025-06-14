@@ -305,9 +305,22 @@ export default function PosterStudio() {
 
         {currentStep === 1 ? (
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Background Settings Panel */}
+            <div className="lg:col-span-1">
+              <ToolSidebar
+                currentStep={currentStep}
+                background={background}
+                onBackgroundChange={updateBackground}
+                onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
+                onAddEmoji={() => handleAddEmoji()}
+                onAddImage={handleAddImage}
+              />
+            </div>
+
             {/* Canvas Area with Orientation Controls */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-2">
               <PosterCanvas
+                ref={canvasRef}
                 elements={elements}
                 background={background}
                 selectedElementId={selectedElementId}
@@ -330,16 +343,8 @@ export default function PosterStudio() {
               />
             </div>
 
-            {/* Background Settings Panel */}
+            {/* Empty panel for consistent layout */}
             <div className="lg:col-span-1">
-              <ToolSidebar
-                currentStep={currentStep}
-                background={background}
-                onBackgroundChange={updateBackground}
-                onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
-                onAddEmoji={() => handleAddEmoji()}
-                onAddImage={handleAddImage}
-              />
             </div>
           </div>
         ) : currentStep === 4 ? (
