@@ -29,13 +29,13 @@ export default function PosterStudio() {
     resetPoster
   } = usePosterState();
 
-  const handleAddText = (customText?: string) => {
+  const handleAddText = (customText?: string, isPerformanceInfo?: boolean) => {
     const id = addElement({
       type: 'text',
       content: customText || '새 텍스트',
-      position: { x: 200, y: 100 },
+      position: isPerformanceInfo ? { x: 250, y: 400 } : { x: 200, y: 100 },
       style: {
-        fontSize: 36,
+        fontSize: isPerformanceInfo ? 24 : 36,
         color: '#ffffff',
         direction: 'horizontal',
         fontFamily: 'Do Hyeon'
