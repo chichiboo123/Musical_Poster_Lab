@@ -220,7 +220,7 @@ export default function ToolSidebar({
           <CardContent>
             <div className="space-y-3">
               <Button
-                onClick={onAddText}
+                onClick={() => onAddText()}
                 className="w-full little-prince-rose text-gray-700 hover:bg-pink-300"
               >
                 <i className="fas fa-plus mr-2"></i>텍스트 추가

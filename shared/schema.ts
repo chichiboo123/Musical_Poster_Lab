@@ -7,7 +7,7 @@ export const posters = pgTable("posters", {
   title: text("title").notNull(),
   elements: jsonb("elements").notNull(),
   background: jsonb("background").notNull(),
-  performanceInfo: jsonb("performance_info"),
+  performanceInfo: jsonb("performance_info").notNull().default({}),
 });
 
 export const insertPosterSchema = createInsertSchema(posters).pick({

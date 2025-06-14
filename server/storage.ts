@@ -22,7 +22,11 @@ export class MemStorage implements IStorage {
 
   async createPoster(insertPoster: InsertPoster): Promise<Poster> {
     const id = this.currentId++;
-    const poster: Poster = { ...insertPoster, id };
+    const poster: Poster = { 
+      ...insertPoster, 
+      id,
+      performanceInfo: insertPoster.performanceInfo || {}
+    };
     this.posters.set(id, poster);
     return poster;
   }
