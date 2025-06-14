@@ -4,6 +4,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Responsive poster scaling */
+.poster-container {
+  --poster-scale: 1;
+}
+
+@media (max-width: 1024px) {
+  .poster-container {
+    --poster-scale: 0.8;
+  }
+}
+
+@media (max-width: 768px) {
+  .poster-container {
+    --poster-scale: 0.6;
+  }
+}
+
+@media (max-width: 640px) {
+  .poster-container {
+    --poster-scale: 0.4;
+  }
+}
+
 /* Font Classes */
 .do-hyeon-regular {
   font-family: "Do Hyeon", sans-serif;

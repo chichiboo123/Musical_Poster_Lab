@@ -33,7 +33,7 @@ export default function PosterCanvas({
   const backgroundStyle = getBackgroundStyle(background);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-yellow-200">
+    <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-yellow-200 poster-container">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-do-hyeon text-gray-800 flex items-center">
           <i className="fas fa-eye mr-2 text-blue-500"></i>
@@ -53,8 +53,12 @@ export default function PosterCanvas({
       <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ paddingBottom: '141.42%' }}>
         <div
           ref={canvasRef}
-          className="absolute inset-4 rounded-lg shadow-lg overflow-hidden cursor-default"
-          style={backgroundStyle}
+          className="absolute inset-4 rounded-lg shadow-lg overflow-hidden cursor-default transform-gpu transition-transform"
+          style={{
+            ...backgroundStyle,
+            transform: 'scale(var(--poster-scale, 1))',
+            transformOrigin: 'top left'
+          }}
           onClick={handleCanvasClick}
         >
           
