@@ -215,11 +215,11 @@ export default function PosterStudio() {
           <div className="max-w-6xl mx-auto flex-1">
             <header className="text-center mb-8">
               <div className="flex items-center justify-center mb-4">
-                <div className="bg-white p-3 rounded-full shadow-lg mr-4">
-                  <span className="text-2xl">🎭</span>
+                <div className="text-3xl mr-4">🖼️</div>
+                <div className="text-center">
+                  <h1 className="text-3xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
+                  <p className="text-sm text-gray-600 font-do-hyeon">Musical Poster Studio</p>
                 </div>
-                <h1 className="text-3xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
-                <p className="text-sm text-gray-600 ml-2">Musical Poster Studio</p>
               </div>
             </header>
 
@@ -242,7 +242,6 @@ export default function PosterStudio() {
                       <i className="fas fa-mobile-alt text-2xl text-blue-500"></i>
                     </div>
                     <h3 className="text-lg font-do-hyeon text-gray-800 mb-2">세로형 포스터</h3>
-                    <p className="text-sm text-gray-600">일반적인 포스터 형태</p>
                   </div>
                 </button>
 
@@ -258,7 +257,6 @@ export default function PosterStudio() {
                       <i className="fas fa-tablet-alt text-2xl text-green-500"></i>
                     </div>
                     <h3 className="text-lg font-do-hyeon text-gray-800 mb-2">가로형 포스터</h3>
-                    <p className="text-sm text-gray-600">배너 형태의 포스터</p>
                   </div>
                 </button>
               </div>
@@ -267,7 +265,7 @@ export default function PosterStudio() {
 
           {/* Footer */}
           <footer className="text-center py-4 text-gray-500 text-sm">
-            <p>© 2024 교육뮤지컬 꿈꾸는 치수쌤. All rights reserved.</p>
+            <p>© 2025 <a href="https://litt.ly/chichiboo" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 transition-colors">교육뮤지컬 꿈꾸는 치수쌤</a>. All rights reserved.</p>
           </footer>
         </div>
     );

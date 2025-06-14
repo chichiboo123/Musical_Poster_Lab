@@ -102,37 +102,7 @@ const PosterCanvas = React.forwardRef<HTMLDivElement, PosterCanvasProps>((
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-yellow-200 poster-container">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-4">
-          {onOrientationChange && (
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => onOrientationChange('portrait')}
-                className={`p-2 rounded-lg transition-colors ${
-                  orientation === 'portrait' 
-                    ? 'bg-blue-100 text-blue-600' 
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-                title="세로"
-              >
-                <i className="fas fa-mobile-alt"></i>
-              </button>
-              <button
-                onClick={() => onOrientationChange('landscape')}
-                className={`p-2 rounded-lg transition-colors ${
-                  orientation === 'landscape' 
-                    ? 'bg-blue-100 text-blue-600' 
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-                title="가로"
-              >
-                <i className="fas fa-tablet-alt"></i>
-              </button>
-            </div>
-          )}
-          
-        </div>
-      </div>
+      
 
       <div 
         ref={ref}
