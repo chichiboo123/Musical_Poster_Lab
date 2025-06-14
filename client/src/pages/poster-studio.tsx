@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { usePosterState } from '@/hooks/use-poster-state';
 import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
 import ProgressSteps from '@/components/progress-steps';
 import ToolSidebar from '@/components/tool-sidebar';
 import PosterCanvas from '@/components/poster-canvas';
@@ -33,10 +34,10 @@ export default function PosterStudio() {
     const id = addElement({
       type: 'text',
       content: customText || '새 텍스트',
-      position: isPerformanceInfo ? { x: 200, y: 520 } : { x: 200, y: 100 },
+      position: isPerformanceInfo ? { x: 150, y: 480 } : { x: 200, y: 100 },
       style: {
-        fontSize: isPerformanceInfo ? 18 : 36,
-        color: '#ffffff',
+        fontSize: isPerformanceInfo ? 16 : 36,
+        color: isPerformanceInfo ? '#000000' : '#ffffff',
         direction: 'horizontal',
         fontFamily: 'Do Hyeon'
       }
@@ -86,7 +87,7 @@ export default function PosterStudio() {
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b-2 border-yellow-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-between h-20">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center">
                 <i className="fas fa-theater-masks text-white text-xl"></i>
@@ -96,6 +97,21 @@ export default function PosterStudio() {
                 <p className="text-sm text-gray-600 font-do-hyeon">Musical Poster Studio</p>
               </div>
             </div>
+            <Button
+              onClick={() => {
+                if (window.confirm('모든 작업물이 사라집니다. 그래도 누르시겠습니까?')) {
+                  resetPoster();
+                  toast({
+                    title: "초기화 완료",
+                    description: "모든 작업이 초기화되었습니다.",
+                  });
+                }
+              }}
+              variant="outline"
+              className="little-prince-sunset text-white hover:bg-orange-500"
+            >
+              <i className="fas fa-home mr-2"></i>처음으로
+            </Button>
           </div>
         </div>
       </header>

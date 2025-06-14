@@ -251,6 +251,26 @@ export default function PropertiesPanel({
                 </div>
                 
                 <div>
+                  <Label>정렬</Label>
+                  <Button
+                    onClick={() => {
+                      if (canvasRef.current) {
+                        const canvasRect = canvasRef.current.getBoundingClientRect();
+                        const centerX = canvasRect.width / 2 - 50;
+                        onUpdateElement({
+                          position: { ...selectedElement.position, x: centerX }
+                        });
+                      }
+                    }}
+                    size="sm"
+                    variant="outline"
+                    className="w-full mt-2"
+                  >
+                    <i className="fas fa-align-center mr-2"></i>가운데 정렬
+                  </Button>
+                </div>
+                
+                <div>
                   <Button
                     onClick={() => {
                       onRemoveElement(selectedElement.id);
@@ -383,6 +403,26 @@ export default function PropertiesPanel({
                   step={1}
                   className="mt-2"
                 />
+              </div>
+              
+              <div>
+                <Label>정렬</Label>
+                <Button
+                  onClick={() => {
+                    if (canvasRef.current) {
+                      const canvasRect = canvasRef.current.getBoundingClientRect();
+                      const centerX = canvasRect.width / 2 - 25;
+                      onUpdateElement({
+                        position: { ...selectedElement.position, x: centerX }
+                      });
+                    }
+                  }}
+                  size="sm"
+                  variant="outline"
+                  className="w-full mt-2"
+                >
+                  <i className="fas fa-align-center mr-2"></i>가운데 정렬
+                </Button>
               </div>
               
               <div>
