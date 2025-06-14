@@ -92,7 +92,7 @@ export default function PosterStudio() {
                 <i className="fas fa-theater-masks text-white text-xl"></i>
               </div>
               <div className="text-center">
-                <h1 className="text-2xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
+                <h1 className="text-3xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
                 <p className="text-sm text-gray-600 font-do-hyeon">Musical Poster Studio</p>
               </div>
             </div>
