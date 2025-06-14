@@ -50,20 +50,9 @@ export default function PosterCanvas({
         <div
           ref={canvasRef}
           className="absolute inset-4 rounded-lg shadow-lg overflow-hidden cursor-default"
-          style={{
-            ...backgroundStyle,
-            backgroundImage: background.type === 'solid' ? 
-              `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDNMNTAuMTY5IDEzLjMzOTRMMzYgMTVMMzEuNjYgMzMuMTY5NEwyMCAzN0w4LjMzOTM3IDMzLjE2OTRMNCAzNUw4LjMzOTM3IDEzLjMzOTRMMjAgM1oiIGZpbGw9IiNmZmQ3MDAiIGZpbGwtb3BhY2l0eT0iMC4xIi8+Cjwvc3ZnPgo='), ${backgroundStyle.background}` : 
-              backgroundStyle.background,
-            backgroundSize: background.type === 'solid' ? '60px 60px, cover' : 'cover'
-          }}
+          style={backgroundStyle}
           onClick={handleCanvasClick}
         >
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-5" style={{
-            backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDNMNTAuMTY5IDEzLjMzOTRMMzYgMTVMMzEuNjYgMzMuMTY5NEwyMCAzN0w4LjMzOTM3IDMzLjE2OTRMNCAzNUw4LjMzOTM3IDEzLjMzOTRMMjAgM1oiIGZpbGw9IiNmZmQ3MDAiLz4KPC9zdmc+Cg==')`,
-            backgroundSize: '60px 60px'
-          }} />
           
           {/* Render Elements */}
           {elements

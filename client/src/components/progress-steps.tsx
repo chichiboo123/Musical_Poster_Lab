@@ -5,10 +5,9 @@ interface ProgressStepsProps {
 
 const steps = [
   { number: 1, label: "배경", key: "background" },
-  { number: 2, label: "색상", key: "colors" },
-  { number: 3, label: "텍스트", key: "text" },
-  { number: 4, label: "이모지", key: "emoji" },
-  { number: 5, label: "공연정보", key: "performance" },
+  { number: 2, label: "텍스트", key: "text" },
+  { number: 3, label: "주요이미지", key: "emoji" },
+  { number: 4, label: "공연정보", key: "performance" },
 ];
 
 export default function ProgressSteps({ currentStep, onStepChange }: ProgressStepsProps) {

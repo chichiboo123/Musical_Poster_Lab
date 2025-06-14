@@ -41,6 +41,7 @@ export const PosterElementSchema = z.object({
 export const BackgroundSchema = z.object({
   type: z.enum(['solid', 'gradient']),
   colors: z.array(z.string()),
+  gradientDirection: z.enum(['to-r', 'to-l', 'to-t', 'to-b', 'to-tr', 'to-tl', 'to-br', 'to-bl']).optional(),
 });
 
 export const PerformanceInfoSchema = z.object({

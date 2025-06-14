@@ -14,7 +14,8 @@ export const initialPosterState: PosterState = {
   elements: [],
   background: {
     type: 'solid',
-    colors: ['#FFB6C1']
+    colors: ['#FFB6C1'],
+    gradientDirection: 'to-br'
   },
   performanceInfo: {},
   selectedElementId: null
@@ -82,13 +83,25 @@ export async function copyToClipboard(canvasElement: HTMLElement): Promise<void>
   }
 }
 
+const gradientDirections = {
+  'to-r': 'to right',
+  'to-l': 'to left', 
+  'to-t': 'to top',
+  'to-b': 'to bottom',
+  'to-tr': 'to top right',
+  'to-tl': 'to top left',
+  'to-br': 'to bottom right',
+  'to-bl': 'to bottom left'
+};
+
 export function getBackgroundStyle(background: Background): React.CSSProperties {
   if (background.type === 'solid') {
     return { backgroundColor: background.colors[0] };
   } else {
+    const direction = background.gradientDirection ? gradientDirections[background.gradientDirection] : 'to bottom right';
     const gradient = background.colors.length > 1 
-      ? `linear-gradient(135deg, ${background.colors.join(', ')})`
-      : `linear-gradient(135deg, ${background.colors[0]}, ${background.colors[0]}80)`;
-    return { background: gradient };
+      ? `linear-gradient(${direction}, ${background.colors.join(', ')})`
+      : `linear-gradient(${direction}, ${background.colors[0]}, ${background.colors[0]}80)`;
+    return { backgroundImage: gradient };
   }
 }
