@@ -34,6 +34,7 @@ export const PosterElementSchema = z.object({
     color: z.string().optional(),
     rotation: z.number().optional(),
     direction: z.enum(['horizontal', 'vertical']).optional(),
+    fontFamily: z.string().optional(),
   }),
   zIndex: z.number(),
 });

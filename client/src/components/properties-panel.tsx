@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { type PosterElement } from '@shared/schema';
-import { emojiCategories, searchEmojis } from '@/lib/emoji-data';
+import { emojiCategories, searchEmojis, googleFonts, textColors } from '@/lib/emoji-data';
 import { exportToPNG, copyToClipboard } from '@/lib/poster-utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import html2canvas from 'html2canvas';
 
@@ -141,6 +142,27 @@ export default function PropertiesPanel({
                     className="mt-1"
                   />
                 </div>
+
+                <div>
+                  <Label>폰트 선택</Label>
+                  <Select
+                    value={selectedElement.style.fontFamily || 'Do Hyeon'}
+                    onValueChange={(value) => onUpdateElement({ 
+                      style: { ...selectedElement.style, fontFamily: value }
+                    })}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="폰트를 선택하세요" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {googleFonts.map(font => (
+                        <SelectItem key={font.value} value={font.value}>
+                          {font.korean} ({font.name})
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 
                 <div>
                   <Label>글꼴 크기: {selectedElement.style.fontSize || 36}px</Label>
@@ -157,41 +179,47 @@ export default function PropertiesPanel({
                 </div>
                 
                 <div>
-                  <Label>텍스트 색상</Label>
-                  <div className="flex space-x-2 mt-2">
-                    <input
-                      type="color"
-                      value={selectedElement.style.color || '#ffffff'}
-                      onChange={(e) => onUpdateElement({ 
-                        style: { ...selectedElement.style, color: e.target.value }
-                      })}
-                      className="w-10 h-10 rounded-lg border border-gray-300 cursor-pointer"
-                    />
-                    <div className="flex-1 grid grid-cols-4 gap-1">
-                      {['#ffffff', '#000000', '#ff6b6b', '#4ecdc4'].map(color => (
-                        <button
-                          key={color}
-                          className="w-8 h-8 rounded border-2 border-white shadow-sm"
-                          style={{ backgroundColor: color }}
-                          onClick={() => onUpdateElement({ 
-                            style: { ...selectedElement.style, color }
-                          })}
-                        />
-                      ))}
-                    </div>
+                  <Label>추천 색상</Label>
+                  <div className="grid grid-cols-5 gap-2 mt-2">
+                    {textColors.map(color => (
+                      <button
+                        key={color}
+                        className={`w-8 h-8 rounded border-2 ${
+                          selectedElement.style.color === color 
+                            ? 'border-gray-400 ring-2 ring-blue-300' 
+                            : 'border-white'
+                        } shadow-sm`}
+                        style={{ backgroundColor: color }}
+                        onClick={() => onUpdateElement({ 
+                          style: { ...selectedElement.style, color }
+                        })}
+                      />
+                    ))}
                   </div>
                 </div>
                 
                 <div>
+                  <Label>사용자 지정 색상</Label>
+                  <input
+                    type="color"
+                    value={selectedElement.style.color || '#000000'}
+                    onChange={(e) => onUpdateElement({ 
+                      style: { ...selectedElement.style, color: e.target.value }
+                    })}
+                    className="w-full h-10 mt-2 rounded-lg border border-gray-300 cursor-pointer"
+                  />
+                </div>
+                
+                <div>
                   <Label>텍스트 방향</Label>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
+                  <div className="grid grid-cols-3 gap-1 mt-2">
                     <Button
-                      variant={selectedElement.style.direction !== 'vertical' ? 'default' : 'outline'}
+                      variant={selectedElement.style.direction !== 'vertical' && selectedElement.style.rotation === 0 ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => onUpdateElement({ 
-                        style: { ...selectedElement.style, direction: 'horizontal' }
+                        style: { ...selectedElement.style, direction: 'horizontal', rotation: 0 }
                       })}
-                      className={selectedElement.style.direction !== 'vertical' ? 'little-prince-gold text-gray-700' : ''}
+                      className={selectedElement.style.direction !== 'vertical' && selectedElement.style.rotation === 0 ? 'little-prince-gold text-gray-700' : ''}
                     >
                       가로
                     </Button>
@@ -199,13 +227,37 @@ export default function PropertiesPanel({
                       variant={selectedElement.style.direction === 'vertical' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => onUpdateElement({ 
-                        style: { ...selectedElement.style, direction: 'vertical' }
+                        style: { ...selectedElement.style, direction: 'vertical', rotation: 0 }
                       })}
                       className={selectedElement.style.direction === 'vertical' ? 'little-prince-gold text-gray-700' : ''}
                     >
                       세로
                     </Button>
+                    <Button
+                      variant={selectedElement.style.rotation === 45 ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => onUpdateElement({ 
+                        style: { ...selectedElement.style, direction: 'horizontal', rotation: 45 }
+                      })}
+                      className={selectedElement.style.rotation === 45 ? 'little-prince-gold text-gray-700' : ''}
+                    >
+                      대각선
+                    </Button>
                   </div>
+                </div>
+                
+                <div>
+                  <Button
+                    onClick={() => {
+                      // Delete selected element logic will be handled by parent component
+                      console.log('Delete element:', selectedElement.id);
+                    }}
+                    variant="destructive"
+                    size="sm"
+                    className="w-full"
+                  >
+                    <i className="fas fa-trash mr-2"></i>텍스트 삭제
+                  </Button>
                 </div>
               </>
             ) : (
