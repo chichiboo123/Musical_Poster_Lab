@@ -161,7 +161,7 @@ export default function DraggableElement({
     writingMode: element.style.direction === 'vertical' ? 'vertical-rl' : 'horizontal-tb',
     cursor: isDragging ? 'grabbing' : 'grab',
     userSelect: 'none',
-    textShadow: element.type === 'text' ? '2px 2px 4px rgba(0,0,0,0.3)' : 'none',
+    textShadow: element.style.textShadow || 'none',
     filter: element.type === 'emoji' ? 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))' : 'none'
   };
 
