@@ -3,6 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>뮤지컬 포스터 실험실 - Musical Poster Studio</title>
+    <meta name="description" content="창의적인 뮤지컬 포스터를 만들어보세요. 드래그 앤 드롭으로 텍스트, 이모지, 이미지를 추가하고 나만의 포스터를 완성하세요.">
+    
+    <!-- GitHub Pages SPA routing script -->
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // https://github.com/rafgraph/spa-github-pages
+      // This script checks to see if a redirect is present in the query string,
+      // converts it back into the correct url and adds it to the
+      // browser's history using window.history.replaceState(...),
+      // which won't cause the browser to attempt to load the new url.
+      // When the single page app is loaded further down in this file,
+      // the correct url will be waiting in the browser's history for
+      // the single page app to route accordingly.
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon:wght@400&family=Black+Han+Sans:wght@400&family=Grandiflora+One:wght@400&family=Jua:wght@400&family=Dongle:wght@400&family=Gugi:wght@400&family=Black+And+White+Picture:wght@400&family=Gasoek+One:wght@400&family=Yeon+Sung:wght@400&family=Diphylleia:wght@400&family=Kirang+Haerang:wght@400&family=Gaegu:wght@400&family=Noto+Sans+KR:wght@100..900&family=Chiron+Sung+HK:wght@100..900&display=swap" rel="stylesheet">
