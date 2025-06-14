@@ -11,6 +11,8 @@ interface PosterCanvasProps {
   onUpdateElement: (elementId: string, updates: Partial<PosterElement>) => void;
   onDeleteElement: (elementId: string) => void;
   onDuplicateElement: (elementId: string) => void;
+  orientation?: 'portrait' | 'landscape';
+  onOrientationChange?: (orientation: 'portrait' | 'landscape') => void;
 }
 
 export default function PosterCanvas({
@@ -20,7 +22,9 @@ export default function PosterCanvas({
   onSelectElement,
   onUpdateElement,
   onDeleteElement,
-  onDuplicateElement
+  onDuplicateElement,
+  orientation = 'portrait',
+  onOrientationChange
 }: PosterCanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -35,10 +39,38 @@ export default function PosterCanvas({
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 border-2 border-yellow-200 poster-container">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-do-hyeon text-gray-800 flex items-center">
-          <i className="fas fa-eye mr-2 text-blue-500"></i>
-          포스터 미리보기
-        </h3>
+        <div className="flex items-center space-x-4">
+          {onOrientationChange && (
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => onOrientationChange('portrait')}
+                className={`p-2 rounded-lg transition-colors ${
+                  orientation === 'portrait' 
+                    ? 'bg-blue-100 text-blue-600' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+                title="세로"
+              >
+                <i className="fas fa-mobile-alt"></i>
+              </button>
+              <button
+                onClick={() => onOrientationChange('landscape')}
+                className={`p-2 rounded-lg transition-colors ${
+                  orientation === 'landscape' 
+                    ? 'bg-blue-100 text-blue-600' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+                title="가로"
+              >
+                <i className="fas fa-tablet-alt"></i>
+              </button>
+            </div>
+          )}
+          <h3 className="text-lg font-do-hyeon text-gray-800 flex items-center">
+            <i className="fas fa-eye mr-2 text-blue-500"></i>
+            포스터 미리보기
+          </h3>
+        </div>
         <div className="flex items-center space-x-2">
           <button className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg">
             <i className="fas fa-search-minus"></i>
@@ -50,7 +82,12 @@ export default function PosterCanvas({
         </div>
       </div>
       
-      <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ paddingBottom: '141.42%' }}>
+      <div 
+        className="relative bg-gray-100 rounded-lg overflow-hidden" 
+        style={{ 
+          paddingBottom: orientation === 'landscape' ? '70.71%' : '141.42%' 
+        }}
+      >
         <div
           ref={canvasRef}
           className="absolute inset-4 rounded-lg shadow-lg overflow-hidden cursor-default transform-gpu transition-transform"

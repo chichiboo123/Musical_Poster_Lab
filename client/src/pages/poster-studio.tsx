@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { usePosterState } from '@/hooks/use-poster-state';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import PropertiesPanel from '@/components/properties-panel';
 export default function PosterStudio() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
   
   const {
     currentStep,
@@ -156,6 +157,8 @@ export default function PosterStudio() {
                   addElement(newElement);
                 }
               }}
+              orientation={orientation}
+              onOrientationChange={setOrientation}
             />
           </div>
 
@@ -171,6 +174,7 @@ export default function PosterStudio() {
               }}
               onAddEmoji={handleAddEmoji}
               onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
+              onAddImage={handleAddImage}
               onRemoveElement={removeElement}
               canvasRef={canvasRef}
               performanceInfo={performanceInfo}
