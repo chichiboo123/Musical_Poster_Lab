@@ -609,9 +609,42 @@ export default function PropertiesPanel({
               </div>
             </div>
 
+            {/* Bulk Insert Button */}
+            <div className="pt-4 border-t">
+              <Button
+                onClick={() => {
+                  const allInfo = [
+                    performanceInfo.date,
+                    performanceInfo.time,
+                    performanceInfo.venue,
+                    performanceInfo.cast,
+                    performanceInfo.crew,
+                    performanceInfo.production
+                  ].filter(Boolean);
+                  
+                  if (allInfo.length > 0) {
+                    allInfo.forEach((info, index) => {
+                      setTimeout(() => {
+                        onAddText(info, true);
+                      }, index * 100);
+                    });
+                    toast({
+                      title: "모든 공연정보 추가됨",
+                      description: `${allInfo.length}개의 공연정보가 포스터에 추가되었습니다.`,
+                    });
+                  }
+                }}
+                className="w-full bg-green-500 hover:bg-green-600 text-white"
+                size="lg"
+                disabled={!performanceInfo.date && !performanceInfo.time && !performanceInfo.venue && !performanceInfo.cast && !performanceInfo.crew && !performanceInfo.production}
+              >
+                <i className="fas fa-plus-circle mr-2"></i>
+                한 번에 삽입
+              </Button>
+            </div>
+
           </CardContent>
         </Card>
-
 
       </div>
     );

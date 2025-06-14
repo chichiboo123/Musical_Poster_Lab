@@ -71,15 +71,6 @@ export default function PosterCanvas({
             포스터 미리보기
           </h3>
         </div>
-        <div className="flex items-center space-x-2">
-          <button className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg">
-            <i className="fas fa-search-minus"></i>
-          </button>
-          <span className="text-sm text-gray-600">100%</span>
-          <button className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg">
-            <i className="fas fa-search-plus"></i>
-          </button>
-        </div>
       </div>
       
       <div 
