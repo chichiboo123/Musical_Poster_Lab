@@ -362,6 +362,7 @@ export default function PosterStudio() {
                 performanceInfo={performanceInfo}
                 onUpdatePerformanceInfo={updatePerformanceInfo}
                 onBackgroundChange={updateBackground}
+                elements={elements}
               />
             </div>
 
@@ -407,6 +408,7 @@ export default function PosterStudio() {
                   performanceInfo={performanceInfo}
                   onUpdatePerformanceInfo={updatePerformanceInfo}
                   onBackgroundChange={updateBackground}
+                  elements={elements}
                 />
               )}
             </div>
@@ -514,6 +516,7 @@ export default function PosterStudio() {
                 performanceInfo={performanceInfo}
                 onUpdatePerformanceInfo={updatePerformanceInfo}
                 onBackgroundChange={updateBackground}
+                elements={elements}
               />
             </div>
           </div>

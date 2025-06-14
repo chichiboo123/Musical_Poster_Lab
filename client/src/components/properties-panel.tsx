@@ -23,6 +23,7 @@ interface PropertiesPanelProps {
   performanceInfo: any;
   onUpdatePerformanceInfo: (info: any) => void;
   onBackgroundChange: (background: Background) => void;
+  elements?: PosterElement[];
 }
 
 export default function PropertiesPanel({
@@ -36,7 +37,8 @@ export default function PropertiesPanel({
   canvasRef,
   performanceInfo,
   onUpdatePerformanceInfo,
-  onBackgroundChange
+  onBackgroundChange,
+  elements = []
 }: PropertiesPanelProps) {
   const [emojiSearch, setEmojiSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Expression');
