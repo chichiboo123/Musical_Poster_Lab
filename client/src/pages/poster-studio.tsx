@@ -33,15 +33,25 @@ export default function PosterStudio() {
   } = usePosterState();
 
   const handleAddText = (customText?: string, isPerformanceInfo?: boolean) => {
+    // Calculate y position based on existing performance info texts
+    let yPosition = isPerformanceInfo ? 400 : 100;
+    if (isPerformanceInfo) {
+      const performanceTexts = elements.filter(el => 
+        el.type === 'text' && 
+        el.style?.fontFamily === 'Noto Sans KR'
+      );
+      yPosition = 400 + (performanceTexts.length * 35); // Space texts 35px apart
+    }
+    
     const id = addElement({
       type: 'text',
       content: customText || '새 텍스트',
-      position: isPerformanceInfo ? { x: 150, y: 480 } : { x: 200, y: 100 },
+      position: { x: 50, y: yPosition },
       style: {
-        fontSize: isPerformanceInfo ? 16 : 36,
-        color: isPerformanceInfo ? '#000000' : '#ffffff',
+        fontSize: isPerformanceInfo ? 18 : 36,
+        color: '#000000',
         direction: 'horizontal',
-        fontFamily: 'Do Hyeon'
+        fontFamily: isPerformanceInfo ? 'Noto Sans KR' : 'Do Hyeon'
       }
     });
     selectElement(id);
@@ -83,13 +93,30 @@ export default function PosterStudio() {
     if (!canvasRef.current) return;
     
     try {
-      const { exportToPNG } = await import('@/lib/poster-utils');
-      await exportToPNG(canvasRef.current);
+      const html2canvas = (await import('html2canvas')).default;
+      
+      const canvas = await html2canvas(canvasRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false
+      });
+      
+      // Create download link
+      const link = document.createElement('a');
+      link.download = 'poster.png';
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
       toast({
         title: "성공",
         description: "PNG 파일이 다운로드되었습니다.",
       });
     } catch (error) {
+      console.error('PNG export error:', error);
       toast({
         title: "오류",
         description: "PNG 내보내기에 실패했습니다.",
@@ -142,13 +169,31 @@ export default function PosterStudio() {
     if (!canvasRef.current) return;
     
     try {
-      const { copyToClipboard } = await import('@/lib/poster-utils');
-      await copyToClipboard(canvasRef.current);
-      toast({
-        title: "성공",
-        description: "클립보드에 복사되었습니다.",
+      const html2canvas = (await import('html2canvas')).default;
+      
+      const canvas = await html2canvas(canvasRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false
       });
+      
+      canvas.toBlob(async (blob) => {
+        if (blob && navigator.clipboard && navigator.clipboard.write) {
+          const item = new ClipboardItem({ 'image/png': blob });
+          await navigator.clipboard.write([item]);
+          toast({
+            title: "성공",
+            description: "클립보드에 복사되었습니다.",
+          });
+        } else {
+          throw new Error('클립보드 API를 사용할 수 없습니다.');
+        }
+      }, 'image/png');
+      
     } catch (error) {
+      console.error('Clipboard copy error:', error);
       toast({
         title: "오류",
         description: "클립보드 복사에 실패했습니다.",

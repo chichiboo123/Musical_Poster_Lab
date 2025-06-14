@@ -623,10 +623,8 @@ export default function PropertiesPanel({
                   ].filter(Boolean);
                   
                   if (allInfo.length > 0) {
-                    allInfo.forEach((info, index) => {
-                      setTimeout(() => {
-                        onAddText(info, true);
-                      }, index * 100);
+                    allInfo.forEach((info) => {
+                      onAddText(info, true);
                     });
                     toast({
                       title: "모든 공연정보 추가됨",
@@ -646,6 +644,164 @@ export default function PropertiesPanel({
           </CardContent>
         </Card>
 
+      </div>
+    );
+  }
+
+  // Text Properties for Step 4 (Performance Info)
+  if (currentStep === 99 && selectedElement && selectedElement.type === 'text') {
+    return (
+      <div className="space-y-6">
+        <Card className="border-2 border-yellow-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+              <i className="fas fa-font mr-2 text-blue-500"></i>
+              텍스트 속성
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label>텍스트 내용</Label>
+              <Input
+                value={String(selectedElement.content)}
+                onChange={(e) => onUpdateElement({ content: e.target.value })}
+                className="mt-1"
+              />
+            </div>
+            
+            <div>
+              <Label>글꼴 크기: {selectedElement.style.fontSize || 16}px</Label>
+              <Slider
+                value={[selectedElement.style.fontSize || 16]}
+                onValueChange={([value]) => onUpdateElement({ 
+                  style: { ...selectedElement.style, fontSize: value }
+                })}
+                min={12}
+                max={72}
+                step={1}
+                className="mt-2"
+              />
+            </div>
+            
+            <div>
+              <Label>글꼴 서체</Label>
+              <Select
+                value={selectedElement.style.fontFamily || 'Noto Sans KR'}
+                onValueChange={(value) => onUpdateElement({ 
+                  style: { ...selectedElement.style, fontFamily: value }
+                })}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Noto Sans KR">Noto Sans KR</SelectItem>
+                  <SelectItem value="Do Hyeon">Do Hyeon</SelectItem>
+                  <SelectItem value="Gowun Dodum">Gowun Dodum</SelectItem>
+                  <SelectItem value="Nanum Gothic">Nanum Gothic</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label>글꼴 색상</Label>
+              <div className="grid grid-cols-4 gap-2 mt-2">
+                {textColors.map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => onUpdateElement({ 
+                      style: { ...selectedElement.style, color }
+                    })}
+                    className={`w-8 h-8 rounded border-2 ${
+                      selectedElement.style.color === color 
+                        ? 'border-gray-800' 
+                        : 'border-gray-300'
+                    }`}
+                    style={{ backgroundColor: color }}
+                    title={color}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <Label>사용자 지정 색상</Label>
+              <div className="mt-2 p-2 border rounded">
+                <input
+                  type="color"
+                  value={selectedElement.style.color || '#000000'}
+                  onChange={(e) => onUpdateElement({ 
+                    style: { ...selectedElement.style, color: e.target.value }
+                  })}
+                  className="w-full h-8 rounded cursor-pointer"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label>텍스트 방향</Label>
+              <div className="flex gap-2 mt-2">
+                <Button
+                  onClick={() => onUpdateElement({ 
+                    style: { ...selectedElement.style, direction: 'horizontal' }
+                  })}
+                  size="sm"
+                  variant={selectedElement.style.direction === 'horizontal' ? 'default' : 'outline'}
+                  className="flex-1"
+                >
+                  가로
+                </Button>
+                <Button
+                  onClick={() => onUpdateElement({ 
+                    style: { ...selectedElement.style, direction: 'vertical' }
+                  })}
+                  size="sm"
+                  variant={selectedElement.style.direction === 'vertical' ? 'default' : 'outline'}
+                  className="flex-1"
+                >
+                  세로
+                </Button>
+              </div>
+            </div>
+
+            <div>
+              <Label>정렬</Label>
+              <Button
+                onClick={() => {
+                  if (canvasRef.current) {
+                    const canvasWidth = canvasRef.current.offsetWidth;
+                    const centerX = (canvasWidth - 100) / 2;
+                    onUpdateElement({
+                      position: { ...selectedElement.position, x: centerX }
+                    });
+                  }
+                }}
+                size="sm"
+                variant="outline"
+                className="w-full mt-2"
+              >
+                <i className="fas fa-align-center mr-2"></i>가운데 정렬
+              </Button>
+            </div>
+
+            <div>
+              <Button
+                onClick={() => {
+                  onRemoveElement(selectedElement.id);
+                  toast({
+                    title: "삭제 완료",
+                    description: "텍스트가 삭제되었습니다.",
+                  });
+                }}
+                variant="destructive"
+                size="sm"
+                className="w-full"
+              >
+                <i className="fas fa-trash mr-2"></i>텍스트 삭제
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
