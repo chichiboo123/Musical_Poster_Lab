@@ -261,10 +261,13 @@ export default function PropertiesPanel({
                   <Button
                     onClick={() => {
                       if (canvasRef.current) {
+                        // 실제 캔버스 내부 크기 계산 (padding 4 제외)
                         const canvasRect = canvasRef.current.getBoundingClientRect();
-                        const centerX = canvasRect.width / 2 - 50;
+                        const canvasWidth = canvasRect.width;
+                        const elementWidth = 100; // 대략적인 텍스트 요소 너비
+                        const centerX = (canvasWidth - elementWidth) / 2;
                         onUpdateElement({
-                          position: { ...selectedElement.position, x: centerX }
+                          position: { ...selectedElement.position, x: Math.max(0, centerX) }
                         });
                       }
                     }}
@@ -417,7 +420,7 @@ export default function PropertiesPanel({
                   onClick={() => {
                     if (canvasRef.current) {
                       const canvasRect = canvasRef.current.getBoundingClientRect();
-                      const elementWidth = selectedElement.type === 'text' ? 120 : 80;
+                      const elementWidth = selectedElement.type === 'text' ? 100 : 60;
                       const centerX = (canvasRect.width - elementWidth) / 2;
                       onUpdateElement({
                         position: { ...selectedElement.position, x: Math.max(0, centerX) }
@@ -784,7 +787,7 @@ export default function PropertiesPanel({
                 onClick={() => {
                   if (canvasRef.current) {
                     const canvasRect = canvasRef.current.getBoundingClientRect();
-                    const elementWidth = selectedElement.type === 'text' ? 120 : 80;
+                    const elementWidth = 100;
                     const centerX = (canvasRect.width - elementWidth) / 2;
                     onUpdateElement({
                       position: { ...selectedElement.position, x: Math.max(0, centerX) }
@@ -849,10 +852,11 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (canvasRef.current) {
-                      const canvasWidth = canvasRef.current.offsetWidth;
-                      const centerX = (canvasWidth - 100) / 2; // Center with element width offset
+                      const canvasRect = canvasRef.current.getBoundingClientRect();
+                      const elementWidth = 100;
+                      const centerX = (canvasRect.width - elementWidth) / 2;
                       onUpdateElement({
-                        position: { ...selectedElement.position, x: centerX }
+                        position: { ...selectedElement.position, x: Math.max(0, centerX) }
                       });
                     }
                   }}
