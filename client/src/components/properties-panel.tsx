@@ -17,6 +17,7 @@ interface PropertiesPanelProps {
   onUpdateElement: (updates: Partial<PosterElement>) => void;
   onAddEmoji: (emoji: string) => void;
   onAddText: (text?: string, isPerformanceInfo?: boolean) => void;
+  onAddImage: (imageData: string) => void;
   onRemoveElement: (elementId: string) => void;
   canvasRef: React.RefObject<HTMLElement>;
   performanceInfo: any;
@@ -30,6 +31,7 @@ export default function PropertiesPanel({
   onUpdateElement,
   onAddEmoji,
   onAddText,
+  onAddImage,
   onRemoveElement,
   canvasRef,
   performanceInfo,
@@ -610,170 +612,140 @@ export default function PropertiesPanel({
           </CardContent>
         </Card>
 
-        {/* Export Options - Only show in final step */}
-        <Card className="border-2 border-yellow-200">
-          <CardHeader>
-            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
-              <i className="fas fa-download mr-2 text-blue-500"></i>
-              내보내기
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <Button
-                onClick={handleExportPNG}
-                className="w-full little-prince-blue text-white hover:bg-sky-600"
-              >
-                <i className="fas fa-file-image mr-2"></i>PNG 다운로드
-              </Button>
-              <Button
-                onClick={handleCopyToClipboard}
-                className="w-full little-prince-lavender text-gray-700 hover:bg-purple-300"
-              >
-                <i className="fas fa-clipboard mr-2"></i>클립보드 복사
-              </Button>
-              <Button
-                onClick={handlePrint}
-                className="w-full little-prince-mint text-gray-700 hover:bg-green-300"
-              >
-                <i className="fas fa-print mr-2"></i>인쇄하기
-              </Button>
-            </div>
-            
 
-          </CardContent>
-        </Card>
       </div>
     );
   }
 
-  // Step 5: Edit/Final - Show export options and background editing
+  // Step 5: Final Check - Right sidebar for image upload and emoji selection
   if (currentStep === 5) {
     return (
       <div className="space-y-6">
-        {/* Background Editor for Step 5 */}
-        <Card className="border-2 border-yellow-200">
-          <CardHeader>
-            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
-              <i className="fas fa-palette mr-2 text-purple-500"></i>
-              배경 편집
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <Label>배경 색상</Label>
-                <div className="grid grid-cols-4 gap-2 mt-2">
-                  {['#FFFFFF', '#FFE4E1', '#F0F8FF', '#F5F5DC', '#E6E6FA', '#FFF8DC', '#F0FFF0', '#FFE4B5'].map(color => (
-                    <button
-                      key={color}
-                      className="w-full h-10 rounded-lg border-2 hover:scale-105 transition-transform"
-                      style={{ backgroundColor: color }}
-                      onClick={() => onBackgroundChange({ type: 'solid', colors: [color] })}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Selected Element Properties */}
-        {selectedElement && (
+        {/* Text Properties */}
+        {selectedElement && selectedElement.type === 'text' && (
           <Card className="border-2 border-yellow-200">
             <CardHeader>
               <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
-                <i className="fas fa-cog mr-2 text-orange-500"></i>
-                요소 속성
+                <i className="fas fa-font mr-2 text-blue-500"></i>
+                텍스트 속성
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              {selectedElement.type === 'text' && (
-                <div className="space-y-4">
-                  <div>
-                    <Label>텍스트 내용</Label>
-                    <Input
-                      value={String(selectedElement.content)}
-                      onChange={(e) => onUpdateElement({ content: e.target.value })}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label>정렬</Label>
-                    <Button
-                      onClick={() => {
-                        if (canvasRef.current) {
-                          const canvasRect = canvasRef.current.getBoundingClientRect();
-                          const centerX = canvasRect.width / 2 - 50;
-                          onUpdateElement({
-                            position: { ...selectedElement.position, x: centerX }
-                          });
-                        }
-                      }}
-                      size="sm"
-                      variant="outline"
-                      className="w-full mt-2"
-                    >
-                      <i className="fas fa-align-center mr-2"></i>가운데 정렬
-                    </Button>
-                  </div>
-                </div>
-              )}
-              {selectedElement.type === 'emoji' && (
-                <div className="space-y-4">
-                  <div>
-                    <Label>정렬</Label>
-                    <Button
-                      onClick={() => {
-                        if (canvasRef.current) {
-                          const canvasRect = canvasRef.current.getBoundingClientRect();
-                          const centerX = canvasRect.width / 2 - 25;
-                          onUpdateElement({
-                            position: { ...selectedElement.position, x: centerX }
-                          });
-                        }
-                      }}
-                      size="sm"
-                      variant="outline"
-                      className="w-full mt-2"
-                    >
-                      <i className="fas fa-align-center mr-2"></i>가운데 정렬
-                    </Button>
-                  </div>
-                </div>
-              )}
+            <CardContent className="space-y-4">
+              <div>
+                <Label>텍스트 내용</Label>
+                <Input
+                  value={String(selectedElement.content)}
+                  onChange={(e) => onUpdateElement({ content: e.target.value })}
+                  className="mt-1"
+                />
+              </div>
+              
+              <div>
+                <Label>정렬</Label>
+                <Button
+                  onClick={() => {
+                    if (canvasRef.current) {
+                      const canvasWidth = canvasRef.current.offsetWidth;
+                      const centerX = (canvasWidth - 100) / 2; // Center with element width offset
+                      onUpdateElement({
+                        position: { ...selectedElement.position, x: centerX }
+                      });
+                    }
+                  }}
+                  size="sm"
+                  variant="outline"
+                  className="w-full mt-2"
+                >
+                  <i className="fas fa-align-center mr-2"></i>가운데 정렬
+                </Button>
+              </div>
             </CardContent>
           </Card>
         )}
 
-        {/* Export Options */}
+        {/* User Image Upload */}
         <Card className="border-2 border-yellow-200">
           <CardHeader>
             <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
-              <i className="fas fa-download mr-2 text-blue-500"></i>
-              내보내기
+              <i className="fas fa-upload mr-2 text-green-500"></i>
+              사용자 이미지 업로드
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <Button
-                onClick={handleExportPNG}
-                className="w-full little-prince-blue text-white hover:bg-sky-600"
-              >
-                <i className="fas fa-file-image mr-2"></i>PNG 다운로드
-              </Button>
-              <Button
-                onClick={handleCopyToClipboard}
-                className="w-full little-prince-lavender text-gray-700 hover:bg-purple-300"
-              >
-                <i className="fas fa-clipboard mr-2"></i>클립보드 복사
-              </Button>
-              <Button
-                onClick={handlePrint}
-                className="w-full little-prince-mint text-gray-700 hover:bg-green-300"
-              >
-                <i className="fas fa-print mr-2"></i>인쇄하기
-              </Button>
+              <Input
+                type="file"
+                accept="image/*"
+                className="cursor-pointer"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                      const imageUrl = event.target?.result as string;
+                      onAddImage(imageUrl);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
+              />
+              <p className="text-xs text-gray-500">JPG, PNG, GIF 파일을 업로드하세요</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Emoji Selection */}
+        <Card className="border-2 border-yellow-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+              <i className="fas fa-smile mr-2 text-orange-500"></i>
+              이모지 선택
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div>
+                <Input
+                  placeholder="이모지 검색..."
+                  value={emojiSearch}
+                  onChange={(e) => {
+                    setEmojiSearch(e.target.value);
+                    setEmojiPage(0);
+                  }}
+                  className="mb-2"
+                />
+              </div>
+              
+              <div className="flex flex-wrap gap-1 mb-2">
+                {emojiCategories.slice(0, 3).map(category => (
+                  <Button
+                    key={category.name}
+                    variant={selectedCategory === category.name ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => {
+                      setSelectedCategory(category.name);
+                      setEmojiPage(0);
+                      setEmojiSearch('');
+                    }}
+                    className={`text-xs ${selectedCategory === category.name ? 'little-prince-gold text-gray-700' : ''}`}
+                  >
+                    {category.korean}
+                  </Button>
+                ))}
+              </div>
+              
+              <div className="grid grid-cols-6 gap-1 h-32 overflow-y-auto">
+                {paginatedEmojis.slice(0, 18).map((item, index) => (
+                  <button
+                    key={index}
+                    className="text-lg hover:bg-gray-100 rounded p-1 transition-colors flex items-center justify-center"
+                    onClick={() => onAddEmoji(item.emoji)}
+                    title={item.keywords.join(', ')}
+                  >
+                    {item.emoji}
+                  </button>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>

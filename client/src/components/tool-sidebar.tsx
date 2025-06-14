@@ -301,9 +301,7 @@ export default function ToolSidebar({
           </CardHeader>
           <CardContent>
             <div className="text-sm text-gray-600 p-3 bg-yellow-50 rounded-lg">
-              <p>• 오른쪽 패널에서 공연 상세정보를 입력하세요</p>
-              <p>• 일시, 장소, 출연진 등을 추가할 수 있습니다</p>
-              <p>• 모든 정보 입력 후 포스터를 다운로드하세요</p>
+              <p>• 공연 상세정보를 입력하세요</p>
             </div>
           </CardContent>
         </Card>
@@ -311,53 +309,82 @@ export default function ToolSidebar({
     );
   }
 
-  // Step 5: Edit/Modify
+  // Step 5: Final Check
   if (currentStep === 5) {
     return (
       <div className="space-y-6">
+        {/* Left Column - Background Settings */}
         <Card className="border-2 border-yellow-200">
           <CardHeader>
             <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
-              <i className="fas fa-edit mr-2 text-green-500"></i>
-              최종 수정하기
+              <i className="fas fa-palette mr-2 text-purple-500"></i>
+              배경 설정
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <Button
-                onClick={() => onAddText()}
-                className="w-full little-prince-rose text-gray-700 hover:bg-pink-300"
-              >
-                <i className="fas fa-plus mr-2"></i>텍스트 추가
-              </Button>
-              
-              <div className="space-y-2">
-                <Input
-                  type="file"
-                  accept="image/*"
-                  className="cursor-pointer"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = (event) => {
-                        const imageUrl = event.target?.result as string;
-                        onAddImage(imageUrl);
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  }}
-                />
-                <Label className="text-xs text-gray-500">이미지 업로드</Label>
+            <div className="space-y-4">
+              <div>
+                <Label>배경 유형</Label>
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <Button
+                    onClick={() => onBackgroundChange({ type: 'solid', colors: ['#FFFFFF'] })}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center justify-center"
+                  >
+                    단색
+                  </Button>
+                  <Button
+                    onClick={() => onBackgroundChange({ type: 'gradient', colors: ['#FFE4E1', '#F0F8FF'], gradientDirection: 'to-br' })}
+                    variant="outline" 
+                    size="sm"
+                    className="flex items-center justify-center"
+                  >
+                    그라데이션
+                  </Button>
+                </div>
               </div>
               
-              <div className="text-sm text-gray-600 p-3 bg-green-50 rounded-lg">
-                <p>• 모든 요소를 자유롭게 수정할 수 있습니다</p>
-                <p>• 배경색은 속성 패널에서 변경하세요</p>
-                <p>• 텍스트와 이미지를 추가하거나 편집하세요</p>
-                <p>• 완성 후 내보내기를 진행하세요</p>
+              <div>
+                <Label>추천 색상</Label>
+                <div className="grid grid-cols-5 gap-2 mt-2">
+                  {['#FFFFFF', '#FFE4E1', '#F0F8FF', '#F5F5DC', '#E6E6FA', '#FFF8DC', '#F0FFF0', '#FFE4B5', '#D3D3D3', '#F0E68C'].map(color => (
+                    <button
+                      key={color}
+                      className="w-full h-8 rounded-lg border-2 hover:scale-105 transition-transform"
+                      style={{ backgroundColor: color }}
+                      onClick={() => onBackgroundChange({ type: 'solid', colors: [color] })}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <Label>사용자 지정 색상</Label>
+                <input
+                  type="color"
+                  className="w-full h-10 mt-2 rounded-lg border border-gray-300 cursor-pointer"
+                  onChange={(e) => onBackgroundChange({ type: 'solid', colors: [e.target.value] })}
+                />
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 border-yellow-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+              <i className="fas fa-plus mr-2 text-blue-500"></i>
+              텍스트 추가
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button
+              onClick={() => onAddText()}
+              className="w-full little-prince-rose text-gray-700 hover:bg-pink-300"
+            >
+              <i className="fas fa-plus mr-2"></i>새 텍스트 추가
+            </Button>
           </CardContent>
         </Card>
       </div>
