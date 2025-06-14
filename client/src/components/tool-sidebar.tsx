@@ -11,6 +11,7 @@ interface ToolSidebarProps {
   onBackgroundChange: (background: Background) => void;
   onAddText: () => void;
   onAddEmoji: () => void;
+  onAddImage: (imageData: string) => void;
 }
 
 export default function ToolSidebar({
@@ -18,7 +19,8 @@ export default function ToolSidebar({
   background,
   onBackgroundChange,
   onAddText,
-  onAddEmoji
+  onAddEmoji,
+  onAddImage
 }: ToolSidebarProps) {
   
   const handleBackgroundTypeChange = (type: 'solid' | 'gradient') => {
@@ -265,8 +267,7 @@ export default function ToolSidebar({
                       const reader = new FileReader();
                       reader.onload = (event) => {
                         const imageUrl = event.target?.result as string;
-                        // Add image upload logic here
-                        console.log('Image uploaded:', imageUrl);
+                        onAddImage(imageUrl);
                       };
                       reader.readAsDataURL(file);
                     }

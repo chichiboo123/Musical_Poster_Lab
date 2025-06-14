@@ -62,6 +62,20 @@ export default function PosterStudio() {
     });
   };
 
+  const handleAddImage = (imageData: string) => {
+    const id = addElement({
+      type: 'image',
+      content: imageData,
+      position: { x: 200, y: 200 },
+      style: { fontSize: 100 }
+    });
+    selectElement(id);
+    toast({
+      title: "이미지 추가됨",
+      description: "이미지가 포스터에 추가되었습니다.",
+    });
+  };
+
 
 
   const isFirstStep = currentStep === 1;
@@ -102,6 +116,7 @@ export default function PosterStudio() {
               onBackgroundChange={updateBackground}
               onAddText={handleAddText}
               onAddEmoji={() => handleAddEmoji()}
+              onAddImage={handleAddImage}
             />
           </div>
 
