@@ -130,9 +130,7 @@ const PosterCanvas = React.forwardRef<HTMLDivElement, PosterCanvasProps>((
               </button>
             </div>
           )}
-          <h3 className="text-lg font-do-hyeon text-gray-800">
-            포스터 미리보기
-          </h3>
+          
         </div>
       </div>
 

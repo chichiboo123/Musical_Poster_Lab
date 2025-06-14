@@ -1151,3 +1151,33 @@ export default function PropertiesPanel({
 
   return null;
 }
+
+const handleAddText = (customText?: string, isPerformanceInfo?: boolean) => {
+    // Calculate y position for performance info texts at bottom of canvas
+    let yPosition = isPerformanceInfo ? 450 : 100;
+    if (isPerformanceInfo) {
+      const performanceTexts = elements.filter(el => 
+        el.type === 'text' && 
+        el.style?.fontFamily === 'Noto Sans KR'
+      );
+      yPosition = 450 + (performanceTexts.length * 25); // Space texts 25px apart vertically at bottom
+    }
+
+  const newText = {
+    id: Math.random().toString(36).substring(7),
+    type: 'text',
+    content: customText || '새 텍스트',
+    position: { x: 50, y: yPosition },
+    style: {
+      fontFamily: 'Noto Sans KR',
+      fontSize: 36,
+      color: '#000000',
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      textShadow: undefined,
+      direction: 'horizontal',
+      rotation: 0,
+    },
+  };
+  onAddText(newText.content);
+};

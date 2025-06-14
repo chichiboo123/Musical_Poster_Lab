@@ -210,53 +210,66 @@ export default function PosterStudio() {
   // Orientation Selection Screen
   if (showOrientationSelect) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-green-50 flex items-center justify-center">
-        <div className="bg-white rounded-2xl shadow-2xl p-12 border-2 border-yellow-200 max-w-md w-full mx-4">
-          <div className="text-center mb-8">
-            <div className="text-6xl mb-4">🖼️</div>
-            <h1 className="text-2xl font-do-hyeon text-gray-800 mb-2">뮤지컬 포스터 실험실</h1>
-            <p className="text-gray-600 font-do-hyeon">포스터 방향을 선택해주세요</p>
+      
+<div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 p-4 flex flex-col">
+          <div className="max-w-6xl mx-auto flex-1">
+            <header className="text-center mb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="bg-white p-3 rounded-full shadow-lg mr-4">
+                  <span className="text-2xl">🎭</span>
+                </div>
+                <h1 className="text-3xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
+                <p className="text-sm text-gray-600 ml-2">Musical Poster Studio</p>
+              </div>
+            </header>
+
+            <div className="bg-white rounded-xl shadow-lg p-8 border-2 border-yellow-200">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-do-hyeon text-gray-800 mb-4">포스터 방향을 선택하세요</h2>
+                <p className="text-gray-600 mb-6">세로형 또는 가로형 포스터를 선택할 수 있습니다</p>
+              </div>
+
+              <div className="flex justify-center space-x-8 mb-8">
+                <button
+                  onClick={() => {
+                    setOrientation('portrait');
+                    setShowOrientationSelect(false);
+                  }}
+                  className="group p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border-2 border-blue-200 hover:border-blue-300 transition-all duration-300 hover:scale-105"
+                >
+                  <div className="text-center">
+                    <div className="w-20 h-28 bg-white rounded-lg shadow-md mx-auto mb-4 flex items-center justify-center border-2 border-gray-200">
+                      <i className="fas fa-mobile-alt text-2xl text-blue-500"></i>
+                    </div>
+                    <h3 className="text-lg font-do-hyeon text-gray-800 mb-2">세로형 포스터</h3>
+                    <p className="text-sm text-gray-600">일반적인 포스터 형태</p>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setOrientation('landscape');
+                    setShowOrientationSelect(false);
+                  }}
+                  className="group p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border-2 border-green-200 hover:border-green-300 transition-all duration-300 hover:scale-105"
+                >
+                  <div className="text-center">
+                    <div className="w-28 h-20 bg-white rounded-lg shadow-md mx-auto mb-4 flex items-center justify-center border-2 border-gray-200">
+                      <i className="fas fa-tablet-alt text-2xl text-green-500"></i>
+                    </div>
+                    <h3 className="text-lg font-do-hyeon text-gray-800 mb-2">가로형 포스터</h3>
+                    <p className="text-sm text-gray-600">배너 형태의 포스터</p>
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <button
-              onClick={() => {
-                setOrientation('portrait');
-                setShowOrientationSelect(false);
-              }}
-              className="w-full p-6 border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all group"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-16 bg-gray-300 rounded-lg flex items-center justify-center group-hover:bg-blue-400">
-                  <i className="fas fa-mobile-alt text-white text-xl"></i>
-                </div>
-                <div className="text-left">
-                  <h3 className="text-lg font-do-hyeon text-gray-800">세로형 포스터</h3>
-                  <p className="text-sm text-gray-600">세로 방향 포스터 제작</p>
-                </div>
-              </div>
-            </button>
-
-            <button
-              onClick={() => {
-                setOrientation('landscape');
-                setShowOrientationSelect(false);
-              }}
-              className="w-full p-6 border-2 border-gray-200 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all group"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-12 bg-gray-300 rounded-lg flex items-center justify-center group-hover:bg-green-400">
-                  <i className="fas fa-tablet-alt text-white text-xl"></i>
-                </div>
-                <div className="text-left">
-                  <h3 className="text-lg font-do-hyeon text-gray-800">가로형 포스터</h3>
-                  <p className="text-sm text-gray-600">가로 방향 포스터 제작</p>
-                </div>
-              </div>
-            </button>
-          </div>
+          {/* Footer */}
+          <footer className="text-center py-4 text-gray-500 text-sm">
+            <p>© 2024 교육뮤지컬 꿈꾸는 치수쌤. All rights reserved.</p>
+          </footer>
         </div>
-      </div>
     );
   }
 
