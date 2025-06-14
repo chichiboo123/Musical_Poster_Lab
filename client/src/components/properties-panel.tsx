@@ -261,13 +261,18 @@ export default function PropertiesPanel({
                   <Button
                     onClick={() => {
                       if (canvasRef.current) {
-                        // 실제 캔버스 내부 크기 계산 (padding 4 제외)
+                        // 캔버스의 실제 내부 크기 계산 (inset-4 padding 16px 제외)
                         const canvasRect = canvasRef.current.getBoundingClientRect();
-                        const canvasWidth = canvasRect.width;
-                        const elementWidth = 100; // 대략적인 텍스트 요소 너비
-                        const centerX = (canvasWidth - elementWidth) / 2;
+                        const actualCanvasWidth = canvasRect.width;
+                        
+                        // 텍스트 크기에 따른 동적 너비 계산
+                        const fontSize = selectedElement.style.fontSize || 36;
+                        const textLength = selectedElement.content.length;
+                        const estimatedWidth = Math.min(textLength * (fontSize * 0.6), actualCanvasWidth * 0.8);
+                        
+                        const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
                         onUpdateElement({
-                          position: { ...selectedElement.position, x: Math.max(0, centerX) }
+                          position: { ...selectedElement.position, x: centerX }
                         });
                       }
                     }}
@@ -420,10 +425,15 @@ export default function PropertiesPanel({
                   onClick={() => {
                     if (canvasRef.current) {
                       const canvasRect = canvasRef.current.getBoundingClientRect();
-                      const elementWidth = selectedElement.type === 'text' ? 100 : 60;
-                      const centerX = (canvasRect.width - elementWidth) / 2;
+                      const actualCanvasWidth = canvasRect.width;
+                      
+                      // 이모지 크기에 따른 동적 너비 계산
+                      const emojiSize = selectedElement.style.fontSize || 48;
+                      const estimatedWidth = emojiSize;
+                      
+                      const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
                       onUpdateElement({
-                        position: { ...selectedElement.position, x: Math.max(0, centerX) }
+                        position: { ...selectedElement.position, x: centerX }
                       });
                     }
                   }}
@@ -787,10 +797,16 @@ export default function PropertiesPanel({
                 onClick={() => {
                   if (canvasRef.current) {
                     const canvasRect = canvasRef.current.getBoundingClientRect();
-                    const elementWidth = 100;
-                    const centerX = (canvasRect.width - elementWidth) / 2;
+                    const actualCanvasWidth = canvasRect.width;
+                    
+                    // 공연정보 텍스트 크기에 따른 동적 너비 계산
+                    const fontSize = selectedElement.style.fontSize || 16;
+                    const textLength = String(selectedElement.content).length;
+                    const estimatedWidth = Math.min(textLength * (fontSize * 0.5), actualCanvasWidth * 0.9);
+                    
+                    const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
                     onUpdateElement({
-                      position: { ...selectedElement.position, x: Math.max(0, centerX) }
+                      position: { ...selectedElement.position, x: centerX }
                     });
                   }
                 }}
@@ -853,11 +869,24 @@ export default function PropertiesPanel({
                   onClick={() => {
                     if (canvasRef.current) {
                       const canvasRect = canvasRef.current.getBoundingClientRect();
-                      const elementWidth = 100;
-                      const centerX = (canvasRect.width - elementWidth) / 2;
-                      onUpdateElement({
-                        position: { ...selectedElement.position, x: Math.max(0, centerX) }
-                      });
+                      const actualCanvasWidth = canvasRect.width;
+                      
+                      // 현재 선택된 요소의 실제 크기 계산
+                      if (selectedElement.type === 'text') {
+                        const fontSize = selectedElement.style.fontSize || 16;
+                        const textLength = String(selectedElement.content).length;
+                        const estimatedWidth = Math.min(textLength * (fontSize * 0.5), actualCanvasWidth * 0.9);
+                        const centerX = Math.max(0, (actualCanvasWidth - estimatedWidth) / 2);
+                        onUpdateElement({
+                          position: { ...selectedElement.position, x: centerX }
+                        });
+                      } else if (selectedElement.type === 'emoji') {
+                        const emojiSize = selectedElement.style.fontSize || 48;
+                        const centerX = Math.max(0, (actualCanvasWidth - emojiSize) / 2);
+                        onUpdateElement({
+                          position: { ...selectedElement.position, x: centerX }
+                        });
+                      }
                     }
                   }}
                   size="sm"
