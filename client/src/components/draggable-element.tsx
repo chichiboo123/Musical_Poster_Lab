@@ -91,7 +91,18 @@ export default function DraggableElement({
     >
       <div className="relative">
         {element.type === 'text' ? (
-          <span className="font-do-hyeon">{element.content}</span>
+          <span style={{ fontFamily: element.style.fontFamily || 'Do Hyeon' }}>{element.content}</span>
+        ) : element.type === 'image' ? (
+          <img 
+            src={element.content} 
+            alt="Uploaded" 
+            style={{ 
+              width: element.style.fontSize || 100, 
+              height: 'auto',
+              maxWidth: '300px',
+              maxHeight: '300px'
+            }} 
+          />
         ) : (
           <span>{element.content}</span>
         )}

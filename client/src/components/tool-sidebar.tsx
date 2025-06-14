@@ -34,6 +34,14 @@ export default function ToolSidebar({
     { start: '#FFE5F0', end: '#FFB3D9' }, // 연자주
     { start: '#E5FFF5', end: '#B3FFD9' }, // 연민트
     { start: '#FFF0E5', end: '#FFD9B3' }, // 연오렌지
+    { start: '#FF6B6B', end: '#4ECDC4' }, // 코랄-터쿠아즈
+    { start: '#A8E6CF', end: '#FFD3A5' }, // 민트-피치
+    { start: '#FD79A8', end: '#FDCB6E' }, // 핑크-골드
+    { start: '#6C5CE7', end: '#A29BFE' }, // 보라-라벤더
+    { start: '#FD79A8', end: '#FDCB6E' }, // 핑크-골드
+    { start: '#00B894', end: '#55A3FF' }, // 에메랄드-블루
+    { start: '#E17055', end: '#FDCB6E' }, // 테라코타-골드
+    { start: '#74B9FF', end: '#0984E3' }, // 라이트블루-딥블루
   ];
 
   const handleColorSelect = (color: string, isSecondColor = false) => {
@@ -100,19 +108,21 @@ export default function ToolSidebar({
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">추천 색상</label>
-              <div className="grid grid-cols-5 gap-2">
-                {pastelColors.map((color, index) => (
-                  <button
-                    key={index}
-                    className="w-8 h-8 rounded-full border-2 border-white shadow-md hover:scale-110 transition-transform"
-                    style={{ backgroundColor: color }}
-                    onClick={() => handleColorSelect(color)}
-                  />
-                ))}
+            {background.type === 'solid' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">추천 색상</label>
+                <div className="grid grid-cols-5 gap-2">
+                  {pastelColors.map((color, index) => (
+                    <button
+                      key={index}
+                      className="w-8 h-8 rounded-full border-2 border-white shadow-md hover:scale-110 transition-transform"
+                      style={{ backgroundColor: color }}
+                      onClick={() => handleColorSelect(color)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {background.type === 'gradient' && (
               <>

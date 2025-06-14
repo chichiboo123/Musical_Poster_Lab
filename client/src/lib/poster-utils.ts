@@ -14,7 +14,7 @@ export const initialPosterState: PosterState = {
   elements: [],
   background: {
     type: 'solid',
-    colors: ['#FFB6C1'],
+    colors: ['#FFFFFF'],
     gradientDirection: 'to-br'
   },
   performanceInfo: {},

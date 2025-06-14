@@ -23,7 +23,7 @@ export type Poster = typeof posters.$inferSelect;
 // Element types for the poster
 export const PosterElementSchema = z.object({
   id: z.string(),
-  type: z.enum(['text', 'emoji']),
+  type: z.enum(['text', 'emoji', 'image']),
   content: z.string(),
   position: z.object({
     x: z.number(),
