@@ -2,6 +2,8 @@ import { type Background } from '@shared/schema';
 import { pastelColors } from '@/lib/emoji-data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface ToolSidebarProps {
   currentStep: number;
@@ -23,6 +25,17 @@ export default function ToolSidebar({
     onBackgroundChange({ ...background, type });
   };
 
+  const gradientPresets = [
+    { start: '#FFE5E5', end: '#FFB3BA' }, // 연핑크
+    { start: '#E5F3FF', end: '#B3D9FF' }, // 연파랑
+    { start: '#E5FFE5', end: '#B3FFB3' }, // 연초록
+    { start: '#FFF5E5', end: '#FFE5B3' }, // 연노랑
+    { start: '#F0E5FF', end: '#D9B3FF' }, // 연보라
+    { start: '#FFE5F0', end: '#FFB3D9' }, // 연자주
+    { start: '#E5FFF5', end: '#B3FFD9' }, // 연민트
+    { start: '#FFF0E5', end: '#FFD9B3' }, // 연오렌지
+  ];
+
   const handleColorSelect = (color: string, isSecondColor = false) => {
     if (background.type === 'solid') {
       onBackgroundChange({ ...background, colors: [color] });
@@ -39,6 +52,14 @@ export default function ToolSidebar({
         });
       }
     }
+  };
+
+  const handleGradientPreset = (preset: { start: string; end: string }) => {
+    onBackgroundChange({
+      ...background,
+      type: 'gradient',
+      colors: [preset.start, preset.end]
+    });
   };
 
   const handleGradientDirectionChange = (direction: string) => {
@@ -80,7 +101,7 @@ export default function ToolSidebar({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">파스텔 색상</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">추천 색상</label>
               <div className="grid grid-cols-5 gap-2">
                 {pastelColors.map((color, index) => (
                   <button
@@ -95,6 +116,21 @@ export default function ToolSidebar({
 
             {background.type === 'gradient' && (
               <>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">추천 색상</label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {gradientPresets.map((preset, index) => (
+                      <button
+                        key={index}
+                        className="w-full h-8 rounded-lg border-2 border-white shadow-md hover:scale-105 transition-transform"
+                        style={{
+                          background: `linear-gradient(to right, ${preset.start}, ${preset.end})`
+                        }}
+                        onClick={() => handleGradientPreset(preset)}
+                      />
+                    ))}
+                  </div>
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">그라데이션 시작색</label>
                   <input
@@ -178,9 +214,9 @@ export default function ToolSidebar({
                 <i className="fas fa-plus mr-2"></i>텍스트 추가
               </Button>
               <div className="text-sm text-gray-600 p-3 bg-yellow-50 rounded-lg">
-                <p>• 캔버스를 클릭하여 텍스트를 추가하세요</p>
-                <p>• 텍스트를 드래그하여 위치를 조정하세요</p>
-                <p>• 오른쪽 패널에서 텍스트 속성을 변경하세요</p>
+                <p>• 뮤지컬 작품의 제목을 입력하세요.</p>
+                <p>• 뮤지컬 작품의 부제목을 입력하세요.</p>
+                <p>• 뮤지컬 작품을 한문장으로 설명해보세요.</p>
               </div>
             </div>
           </CardContent>
@@ -208,10 +244,29 @@ export default function ToolSidebar({
               >
                 <i className="fas fa-smile mr-2"></i>이모지 추가
               </Button>
+              <div className="space-y-2">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  className="cursor-pointer"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        const imageUrl = event.target?.result as string;
+                        // Add image upload logic here
+                        console.log('Image uploaded:', imageUrl);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+                <Label className="text-xs text-gray-500">이미지 업로드</Label>
+              </div>
               <div className="text-sm text-gray-600 p-3 bg-yellow-50 rounded-lg">
-                <p>• 오른쪽 패널에서 이모지를 검색하세요</p>
-                <p>• 카테고리별로 이모지를 찾을 수 있습니다</p>
-                <p>• 한국어 키워드로 검색 가능합니다</p>
+                <p>• 뮤지컬 작품을 잘 표현하는 이미지를 생각해보세요.</p>
+                <p>• 이모지를 검색하거나 내가 원하는 이미지를 업로드하세요.</p>
               </div>
             </div>
           </CardContent>
