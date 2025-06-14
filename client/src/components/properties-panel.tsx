@@ -567,44 +567,7 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (performanceInfo.date) {
-                      if (canvasRef.current) {
-                        const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
-                        if (posterContainer) {
-                          const containerRect = posterContainer.getBoundingClientRect();
-                          const canvasWidth = containerRect.width - 32;
-                          
-                          // Count existing performance info texts to determine position
-                          const performanceTexts = elements?.filter(el => 
-                            el.type === 'text' && 
-                            el.style?.fontFamily === 'Noto Sans KR'
-                          ) || [];
-                          
-                          // Measure text width for centering
-                          const measurer = document.createElement('span');
-                          measurer.style.position = 'absolute';
-                          measurer.style.visibility = 'hidden';
-                          measurer.style.whiteSpace = 'nowrap';
-                          measurer.style.fontSize = '16px';
-                          measurer.style.fontFamily = 'Noto Sans KR';
-                          measurer.textContent = performanceInfo.date;
-                          document.body.appendChild(measurer);
-
-                          const textWidth = measurer.offsetWidth;
-                          document.body.removeChild(measurer);
-
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                          const yPosition = 420 + (performanceTexts.length * 30);
-
-                          onAddText(performanceInfo.date, true);
-                          
-                          // Update position after adding
-                          setTimeout(() => {
-                            onUpdateElement({ 
-                              position: { x: centerX, y: yPosition }
-                            });
-                          }, 10);
-                        }
-                      }
+                      onAddText(performanceInfo.date, true);
                       toast({
                         title: "공연 일시 추가됨",
                         description: "공연 일시가 포스터에 추가되었습니다.",
@@ -633,41 +596,7 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (performanceInfo.venue) {
-                      if (canvasRef.current) {
-                        const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
-                        if (posterContainer) {
-                          const containerRect = posterContainer.getBoundingClientRect();
-                          const canvasWidth = containerRect.width - 32;
-                          
-                          const performanceTexts = elements?.filter(el => 
-                            el.type === 'text' && 
-                            el.style?.fontFamily === 'Noto Sans KR'
-                          ) || [];
-                          
-                          const measurer = document.createElement('span');
-                          measurer.style.position = 'absolute';
-                          measurer.style.visibility = 'hidden';
-                          measurer.style.whiteSpace = 'nowrap';
-                          measurer.style.fontSize = '16px';
-                          measurer.style.fontFamily = 'Noto Sans KR';
-                          measurer.textContent = performanceInfo.venue;
-                          document.body.appendChild(measurer);
-
-                          const textWidth = measurer.offsetWidth;
-                          document.body.removeChild(measurer);
-
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                          const yPosition = 420 + (performanceTexts.length * 30);
-
-                          onAddText(performanceInfo.venue, true);
-                          
-                          setTimeout(() => {
-                            onUpdateElement({ 
-                              position: { x: centerX, y: yPosition }
-                            });
-                          }, 10);
-                        }
-                      }
+                      onAddText(performanceInfo.venue, true);
                       toast({
                         title: "공연 장소 추가됨",
                         description: "공연 장소가 포스터에 추가되었습니다.",
@@ -696,41 +625,7 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (performanceInfo.cast) {
-                      if (canvasRef.current) {
-                        const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
-                        if (posterContainer) {
-                          const containerRect = posterContainer.getBoundingClientRect();
-                          const canvasWidth = containerRect.width - 32;
-                          
-                          const performanceTexts = elements?.filter(el => 
-                            el.type === 'text' && 
-                            el.style?.fontFamily === 'Noto Sans KR'
-                          ) || [];
-                          
-                          const measurer = document.createElement('span');
-                          measurer.style.position = 'absolute';
-                          measurer.style.visibility = 'hidden';
-                          measurer.style.whiteSpace = 'nowrap';
-                          measurer.style.fontSize = '16px';
-                          measurer.style.fontFamily = 'Noto Sans KR';
-                          measurer.textContent = performanceInfo.cast;
-                          document.body.appendChild(measurer);
-
-                          const textWidth = measurer.offsetWidth;
-                          document.body.removeChild(measurer);
-
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                          const yPosition = 420 + (performanceTexts.length * 30);
-
-                          onAddText(performanceInfo.cast, true);
-                          
-                          setTimeout(() => {
-                            onUpdateElement({ 
-                              position: { x: centerX, y: yPosition }
-                            });
-                          }, 10);
-                        }
-                      }
+                      onAddText(performanceInfo.cast, true);
                       toast({
                         title: "출연진 추가됨",
                         description: "출연진이 포스터에 추가되었습니다.",
@@ -759,41 +654,7 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (performanceInfo.crew) {
-                      if (canvasRef.current) {
-                        const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
-                        if (posterContainer) {
-                          const containerRect = posterContainer.getBoundingClientRect();
-                          const canvasWidth = containerRect.width - 32;
-                          
-                          const performanceTexts = elements?.filter(el => 
-                            el.type === 'text' && 
-                            el.style?.fontFamily === 'Noto Sans KR'
-                          ) || [];
-                          
-                          const measurer = document.createElement('span');
-                          measurer.style.position = 'absolute';
-                          measurer.style.visibility = 'hidden';
-                          measurer.style.whiteSpace = 'nowrap';
-                          measurer.style.fontSize = '16px';
-                          measurer.style.fontFamily = 'Noto Sans KR';
-                          measurer.textContent = performanceInfo.crew;
-                          document.body.appendChild(measurer);
-
-                          const textWidth = measurer.offsetWidth;
-                          document.body.removeChild(measurer);
-
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                          const yPosition = 420 + (performanceTexts.length * 30);
-
-                          onAddText(performanceInfo.crew, true);
-                          
-                          setTimeout(() => {
-                            onUpdateElement({ 
-                              position: { x: centerX, y: yPosition }
-                            });
-                          }, 10);
-                        }
-                      }
+                      onAddText(performanceInfo.crew, true);
                       toast({
                         title: "창작진 추가됨",
                         description: "창작진이 포스터에 추가되었습니다.",
@@ -822,41 +683,7 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (performanceInfo.production) {
-                      if (canvasRef.current) {
-                        const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
-                        if (posterContainer) {
-                          const containerRect = posterContainer.getBoundingClientRect();
-                          const canvasWidth = containerRect.width - 32;
-                          
-                          const performanceTexts = elements?.filter(el => 
-                            el.type === 'text' && 
-                            el.style?.fontFamily === 'Noto Sans KR'
-                          ) || [];
-                          
-                          const measurer = document.createElement('span');
-                          measurer.style.position = 'absolute';
-                          measurer.style.visibility = 'hidden';
-                          measurer.style.whiteSpace = 'nowrap';
-                          measurer.style.fontSize = '16px';
-                          measurer.style.fontFamily = 'Noto Sans KR';
-                          measurer.textContent = performanceInfo.production;
-                          document.body.appendChild(measurer);
-
-                          const textWidth = measurer.offsetWidth;
-                          document.body.removeChild(measurer);
-
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                          const yPosition = 420 + (performanceTexts.length * 30);
-
-                          onAddText(performanceInfo.production, true);
-                          
-                          setTimeout(() => {
-                            onUpdateElement({ 
-                              position: { x: centerX, y: yPosition }
-                            });
-                          }, 10);
-                        }
-                      }
+                      onAddText(performanceInfo.production, true);
                       toast({
                         title: "제작사 추가됨",
                         description: "제작사가 포스터에 추가되었습니다.",
@@ -896,45 +723,10 @@ export default function PropertiesPanel({
                       if (el.id) onRemoveElement(el.id);
                     });
 
-                    // Add new texts with proper spacing and center alignment
-                    allInfo.forEach((info, index) => {
-                      // Calculate centered position
-                      if (canvasRef.current) {
-                        const posterContainer = canvasRef.current.closest('[data-poster-canvas="true"]');
-                        if (posterContainer) {
-                          const containerRect = posterContainer.getBoundingClientRect();
-                          const canvasWidth = containerRect.width - 32;
-                          
-                          // Measure text width for centering
-                          const measurer = document.createElement('span');
-                          measurer.style.position = 'absolute';
-                          measurer.style.visibility = 'hidden';
-                          measurer.style.whiteSpace = 'nowrap';
-                          measurer.style.fontSize = '16px';
-                          measurer.style.fontFamily = 'Noto Sans KR';
-                          measurer.textContent = info;
-                          document.body.appendChild(measurer);
-
-                          const textWidth = measurer.offsetWidth;
-                          document.body.removeChild(measurer);
-
-                          const centerX = Math.max(16, (canvasWidth - textWidth) / 2 + 16);
-                          const yPosition = 420 + (index * 30); // 30px spacing between items
-
-                          // Add element with centered position
-                          const newElementId = Math.random().toString(36).substring(7);
-                          onAddText(info, true);
-                          
-                          // Update position after adding
-                          setTimeout(() => {
-                            onUpdateElement({ 
-                              position: { x: centerX, y: yPosition }
-                            });
-                          }, 10);
-                        }
-                      }
+                    // Add new texts with proper spacing
+                    allInfo.forEach((info) => {
+                      onAddText(info, true);
                     });
-                    
                     toast({
                       title: "모든 공연정보 추가됨",
                       description: `${allInfo.length}개의 공연정보가 포스터에 추가되었습니다.`,
