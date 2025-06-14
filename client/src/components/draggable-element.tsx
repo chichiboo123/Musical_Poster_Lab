@@ -47,19 +47,17 @@ export default function DraggableElement({
     deleteButton.className = 'block w-full text-left px-3 py-2 text-sm hover:bg-red-50 hover:text-red-600 rounded';
     deleteButton.textContent = '삭제';
     deleteButton.onclick = () => {
-      onUpdate({ id: 'DELETE_ELEMENT' } as any);
+      // Signal parent to delete this element
+      onUpdate({ shouldDelete: true } as any);
       document.body.removeChild(contextMenu);
     };
     
     const copyButton = document.createElement('button');
     copyButton.className = 'block w-full text-left px-3 py-2 text-sm hover:bg-blue-50 hover:text-blue-600 rounded';
-    copyButton.textContent = '복사';
+    copyButton.textContent = '복제';
     copyButton.onclick = () => {
-      const newElement = {
-        ...element,
-        position: { x: element.position.x + 20, y: element.position.y + 20 }
-      };
-      onUpdate({ id: 'COPY_ELEMENT', newElement } as any);
+      // Signal parent to duplicate this element
+      onUpdate({ shouldDuplicate: true } as any);
       document.body.removeChild(contextMenu);
     };
     

@@ -9,6 +9,8 @@ interface PosterCanvasProps {
   selectedElementId: string | null;
   onSelectElement: (elementId: string | null) => void;
   onUpdateElement: (elementId: string, updates: Partial<PosterElement>) => void;
+  onDeleteElement: (elementId: string) => void;
+  onDuplicateElement: (elementId: string) => void;
 }
 
 export default function PosterCanvas({
@@ -16,7 +18,9 @@ export default function PosterCanvas({
   background,
   selectedElementId,
   onSelectElement,
-  onUpdateElement
+  onUpdateElement,
+  onDeleteElement,
+  onDuplicateElement
 }: PosterCanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -63,7 +67,15 @@ export default function PosterCanvas({
                 element={element}
                 isSelected={selectedElementId === element.id}
                 onSelect={() => onSelectElement(element.id)}
-                onUpdate={(updates) => onUpdateElement(element.id, updates)}
+                onUpdate={(updates) => {
+                  if ((updates as any).shouldDelete) {
+                    onDeleteElement(element.id);
+                  } else if ((updates as any).shouldDuplicate) {
+                    onDuplicateElement(element.id);
+                  } else {
+                    onUpdateElement(element.id, updates);
+                  }
+                }}
                 canvasRef={canvasRef}
               />
             ))}

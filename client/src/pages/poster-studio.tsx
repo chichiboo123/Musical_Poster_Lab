@@ -128,6 +128,18 @@ export default function PosterStudio() {
               selectedElementId={selectedElementId}
               onSelectElement={selectElement}
               onUpdateElement={updateElement}
+              onDeleteElement={removeElement}
+              onDuplicateElement={(elementId) => {
+                const element = elements.find(el => el.id === elementId);
+                if (element) {
+                  const newElement = {
+                    ...element,
+                    position: { x: element.position.x + 20, y: element.position.y + 20 }
+                  };
+                  delete (newElement as any).id;
+                  addElement(newElement);
+                }
+              }}
             />
           </div>
 
