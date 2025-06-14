@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { type PosterElement } from '@shared/schema';
+import { type PosterElement, type Background } from '@shared/schema';
 import { emojiCategories, searchEmojis, googleFonts, textColors } from '@/lib/emoji-data';
 import { exportToPNG, copyToClipboard } from '@/lib/poster-utils';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ interface PropertiesPanelProps {
   canvasRef: React.RefObject<HTMLElement>;
   performanceInfo: any;
   onUpdatePerformanceInfo: (info: any) => void;
+  onBackgroundChange: (background: Background) => void;
 }
 
 export default function PropertiesPanel({
@@ -32,7 +33,8 @@ export default function PropertiesPanel({
   onRemoveElement,
   canvasRef,
   performanceInfo,
-  onUpdatePerformanceInfo
+  onUpdatePerformanceInfo,
+  onBackgroundChange
 }: PropertiesPanelProps) {
   const [emojiSearch, setEmojiSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Expression');
@@ -638,11 +640,140 @@ export default function PropertiesPanel({
               </Button>
             </div>
             
-            <div className="mt-4 p-3 little-prince-cream rounded-lg">
-              <p className="text-xs text-gray-600">
-                <i className="fas fa-info-circle mr-1"></i>
-                고해상도 PNG 파일로 저장됩니다.
-              </p>
+
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Step 5: Edit/Final - Show export options and background editing
+  if (currentStep === 5) {
+    return (
+      <div className="space-y-6">
+        {/* Background Editor for Step 5 */}
+        <Card className="border-2 border-yellow-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+              <i className="fas fa-palette mr-2 text-purple-500"></i>
+              배경 편집
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <Label>배경 색상</Label>
+                <div className="grid grid-cols-4 gap-2 mt-2">
+                  {['#FFFFFF', '#FFE4E1', '#F0F8FF', '#F5F5DC', '#E6E6FA', '#FFF8DC', '#F0FFF0', '#FFE4B5'].map(color => (
+                    <button
+                      key={color}
+                      className="w-full h-10 rounded-lg border-2 hover:scale-105 transition-transform"
+                      style={{ backgroundColor: color }}
+                      onClick={() => onBackgroundChange({ type: 'solid', colors: [color] })}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Selected Element Properties */}
+        {selectedElement && (
+          <Card className="border-2 border-yellow-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+                <i className="fas fa-cog mr-2 text-orange-500"></i>
+                요소 속성
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {selectedElement.type === 'text' && (
+                <div className="space-y-4">
+                  <div>
+                    <Label>텍스트 내용</Label>
+                    <Input
+                      value={String(selectedElement.content)}
+                      onChange={(e) => onUpdateElement({ content: e.target.value })}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label>정렬</Label>
+                    <Button
+                      onClick={() => {
+                        if (canvasRef.current) {
+                          const canvasRect = canvasRef.current.getBoundingClientRect();
+                          const centerX = canvasRect.width / 2 - 50;
+                          onUpdateElement({
+                            position: { ...selectedElement.position, x: centerX }
+                          });
+                        }
+                      }}
+                      size="sm"
+                      variant="outline"
+                      className="w-full mt-2"
+                    >
+                      <i className="fas fa-align-center mr-2"></i>가운데 정렬
+                    </Button>
+                  </div>
+                </div>
+              )}
+              {selectedElement.type === 'emoji' && (
+                <div className="space-y-4">
+                  <div>
+                    <Label>정렬</Label>
+                    <Button
+                      onClick={() => {
+                        if (canvasRef.current) {
+                          const canvasRect = canvasRef.current.getBoundingClientRect();
+                          const centerX = canvasRect.width / 2 - 25;
+                          onUpdateElement({
+                            position: { ...selectedElement.position, x: centerX }
+                          });
+                        }
+                      }}
+                      size="sm"
+                      variant="outline"
+                      className="w-full mt-2"
+                    >
+                      <i className="fas fa-align-center mr-2"></i>가운데 정렬
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Export Options */}
+        <Card className="border-2 border-yellow-200">
+          <CardHeader>
+            <CardTitle className="text-lg font-do-hyeon text-gray-800 flex items-center">
+              <i className="fas fa-download mr-2 text-blue-500"></i>
+              내보내기
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <Button
+                onClick={handleExportPNG}
+                className="w-full little-prince-blue text-white hover:bg-sky-600"
+              >
+                <i className="fas fa-file-image mr-2"></i>PNG 다운로드
+              </Button>
+              <Button
+                onClick={handleCopyToClipboard}
+                className="w-full little-prince-lavender text-gray-700 hover:bg-purple-300"
+              >
+                <i className="fas fa-clipboard mr-2"></i>클립보드 복사
+              </Button>
+              <Button
+                onClick={handlePrint}
+                className="w-full little-prince-mint text-gray-700 hover:bg-green-300"
+              >
+                <i className="fas fa-print mr-2"></i>인쇄하기
+              </Button>
             </div>
           </CardContent>
         </Card>

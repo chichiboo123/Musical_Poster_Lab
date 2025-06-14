@@ -175,6 +175,7 @@ export default function PosterStudio() {
               canvasRef={canvasRef}
               performanceInfo={performanceInfo}
               onUpdatePerformanceInfo={updatePerformanceInfo}
+              onBackgroundChange={updateBackground}
             />
           </div>
         </div>
