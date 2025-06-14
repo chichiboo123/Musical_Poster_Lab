@@ -9,7 +9,7 @@ interface ToolSidebarProps {
   currentStep: number;
   background: Background;
   onBackgroundChange: (background: Background) => void;
-  onAddText: () => void;
+  onAddText: (text?: string, isPerformanceInfo?: boolean) => void;
   onAddEmoji: () => void;
   onAddImage: (imageData: string) => void;
 }
@@ -249,14 +249,9 @@ export default function ToolSidebar({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <Button
-                onClick={onAddEmoji}
-                className="w-full little-prince-lavender text-gray-700 hover:bg-purple-300"
-              >
-                <i className="fas fa-smile mr-2"></i>이모지 추가
-              </Button>
+            <div className="space-y-4">
               <div className="space-y-2">
+                <Label className="text-sm font-medium text-gray-700">사용자 이미지 업로드</Label>
                 <Input
                   type="file"
                   accept="image/*"
@@ -273,11 +268,18 @@ export default function ToolSidebar({
                     }
                   }}
                 />
-                <Label className="text-xs text-gray-500">이미지 업로드</Label>
+                <p className="text-xs text-gray-500">JPG, PNG, GIF 파일을 업로드하세요</p>
               </div>
+              
+              <div className="border-t pt-4">
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">이모지 선택</Label>
+                <p className="text-xs text-gray-500 mb-3">아래에서 이모지를 선택하거나 속성 패널에서 더 많은 옵션을 확인하세요</p>
+              </div>
+              
               <div className="text-sm text-gray-600 p-3 bg-yellow-50 rounded-lg">
                 <p>• 뮤지컬 작품을 잘 표현하는 이미지를 생각해보세요.</p>
-                <p>• 이모지를 검색하거나 내가 원하는 이미지를 업로드하세요.</p>
+                <p>• 이모지를 선택하거나 내가 원하는 이미지를 업로드하세요.</p>
+                <p>• 업로드된 이미지는 크기 조절이 가능합니다.</p>
               </div>
             </div>
           </CardContent>

@@ -114,7 +114,7 @@ export default function PosterStudio() {
               currentStep={currentStep}
               background={background}
               onBackgroundChange={updateBackground}
-              onAddText={handleAddText}
+              onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
               onAddEmoji={() => handleAddEmoji()}
               onAddImage={handleAddImage}
             />
@@ -142,7 +142,7 @@ export default function PosterStudio() {
                 }
               }}
               onAddEmoji={handleAddEmoji}
-              onAddText={handleAddText}
+              onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
               onRemoveElement={removeElement}
               canvasRef={canvasRef}
               performanceInfo={performanceInfo}

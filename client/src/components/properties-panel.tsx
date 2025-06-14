@@ -16,7 +16,7 @@ interface PropertiesPanelProps {
   selectedElement: PosterElement | null;
   onUpdateElement: (updates: Partial<PosterElement>) => void;
   onAddEmoji: (emoji: string) => void;
-  onAddText: (text?: string) => void;
+  onAddText: (text?: string, isPerformanceInfo?: boolean) => void;
   onRemoveElement: (elementId: string) => void;
   canvasRef: React.RefObject<HTMLElement>;
   performanceInfo: any;
@@ -420,59 +420,149 @@ export default function PropertiesPanel({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="performance-date">공연 일시</Label>
-              <Input
-                id="performance-date"
-                placeholder="예: 2024년 12월 25일 오후 7시"
-                value={performanceInfo.date || ''}
-                onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, date: e.target.value })}
-                className="mt-1"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="performance-date"
+                  placeholder="0000년 0월 0일"
+                  value={performanceInfo.date || ''}
+                  onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, date: e.target.value })}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={() => {
+                    if (performanceInfo.date) {
+                      onAddText(performanceInfo.date, true);
+                      toast({
+                        title: "공연 일시 추가됨",
+                        description: "공연 일시가 포스터에 추가되었습니다.",
+                      });
+                    }
+                  }}
+                  size="sm"
+                  disabled={!performanceInfo.date}
+                  className="little-prince-sunset text-white hover:bg-orange-500"
+                >
+                  삽입
+                </Button>
+              </div>
             </div>
             
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="performance-venue">공연 장소</Label>
-              <Input
-                id="performance-venue"
-                placeholder="예: 대학로 소극장"
-                value={performanceInfo.venue || ''}
-                onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, venue: e.target.value })}
-                className="mt-1"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="performance-venue"
+                  placeholder="어린왕자 소극장"
+                  value={performanceInfo.venue || ''}
+                  onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, venue: e.target.value })}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={() => {
+                    if (performanceInfo.venue) {
+                      onAddText(performanceInfo.venue, true);
+                      toast({
+                        title: "공연 장소 추가됨",
+                        description: "공연 장소가 포스터에 추가되었습니다.",
+                      });
+                    }
+                  }}
+                  size="sm"
+                  disabled={!performanceInfo.venue}
+                  className="little-prince-sunset text-white hover:bg-orange-500"
+                >
+                  삽입
+                </Button>
+              </div>
             </div>
             
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="performance-cast">출연진</Label>
-              <Input
-                id="performance-cast"
-                placeholder="예: 김철수, 이영희, 박민수"
-                value={performanceInfo.cast || ''}
-                onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, cast: e.target.value })}
-                className="mt-1"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="performance-cast"
+                  placeholder="000, 000, 000"
+                  value={performanceInfo.cast || ''}
+                  onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, cast: e.target.value })}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={() => {
+                    if (performanceInfo.cast) {
+                      onAddText(performanceInfo.cast, true);
+                      toast({
+                        title: "출연진 추가됨",
+                        description: "출연진이 포스터에 추가되었습니다.",
+                      });
+                    }
+                  }}
+                  size="sm"
+                  disabled={!performanceInfo.cast}
+                  className="little-prince-sunset text-white hover:bg-orange-500"
+                >
+                  삽입
+                </Button>
+              </div>
             </div>
             
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="performance-crew">창작진</Label>
-              <Input
-                id="performance-crew"
-                placeholder="예: 연출 홍길동, 음악감독 김뮤직"
-                value={performanceInfo.crew || ''}
-                onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, crew: e.target.value })}
-                className="mt-1"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="performance-crew"
+                  placeholder="프로듀서 000, 연출 000, 작곡 000 등"
+                  value={performanceInfo.crew || ''}
+                  onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, crew: e.target.value })}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={() => {
+                    if (performanceInfo.crew) {
+                      onAddText(performanceInfo.crew, true);
+                      toast({
+                        title: "창작진 추가됨",
+                        description: "창작진이 포스터에 추가되었습니다.",
+                      });
+                    }
+                  }}
+                  size="sm"
+                  disabled={!performanceInfo.crew}
+                  className="little-prince-sunset text-white hover:bg-orange-500"
+                >
+                  삽입
+                </Button>
+              </div>
             </div>
             
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="performance-production">제작사</Label>
-              <Input
-                id="performance-production"
-                placeholder="예: 꿈꾸는 뮤지컬 컴퍼니"
-                value={performanceInfo.production || ''}
-                onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, production: e.target.value })}
-                className="mt-1"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="performance-production"
+                  placeholder="교육뮤지컬 꿈꾸는 치수쌤"
+                  value={performanceInfo.production || ''}
+                  onChange={(e) => onUpdatePerformanceInfo({ ...performanceInfo, production: e.target.value })}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={() => {
+                    if (performanceInfo.production) {
+                      onAddText(performanceInfo.production, true);
+                      toast({
+                        title: "제작사 추가됨",
+                        description: "제작사가 포스터에 추가되었습니다.",
+                      });
+                    }
+                  }}
+                  size="sm"
+                  disabled={!performanceInfo.production}
+                  className="little-prince-sunset text-white hover:bg-orange-500"
+                >
+                  삽입
+                </Button>
+              </div>
             </div>
             
             <div>
