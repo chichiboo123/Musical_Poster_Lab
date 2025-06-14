@@ -34,21 +34,21 @@ export default function PosterStudio() {
 
   const handleAddText = (customText?: string, isPerformanceInfo?: boolean) => {
     // Calculate y position based on existing performance info texts
-    let yPosition = isPerformanceInfo ? 400 : 100;
+    let yPosition = isPerformanceInfo ? 420 : 100;
     if (isPerformanceInfo) {
       const performanceTexts = elements.filter(el => 
         el.type === 'text' && 
         el.style?.fontFamily === 'Noto Sans KR'
       );
-      yPosition = 400 + (performanceTexts.length * 35); // Space texts 35px apart
+      yPosition = 420 + (performanceTexts.length * 30); // Space texts 30px apart vertically
     }
     
     const id = addElement({
       type: 'text',
       content: customText || '새 텍스트',
-      position: { x: 50, y: yPosition },
+      position: { x: 30, y: yPosition },
       style: {
-        fontSize: isPerformanceInfo ? 18 : 36,
+        fontSize: isPerformanceInfo ? 16 : 36,
         color: '#000000',
         direction: 'horizontal',
         fontFamily: isPerformanceInfo ? 'Noto Sans KR' : 'Do Hyeon'
@@ -213,9 +213,7 @@ export default function PosterStudio() {
       <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-green-50 flex items-center justify-center">
         <div className="bg-white rounded-2xl shadow-2xl p-12 border-2 border-yellow-200 max-w-md w-full mx-4">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i className="fas fa-theater-masks text-white text-2xl"></i>
-            </div>
+            <div className="text-6xl mb-4">🖼️</div>
             <h1 className="text-2xl font-do-hyeon text-gray-800 mb-2">뮤지컬 포스터 실험실</h1>
             <p className="text-gray-600 font-do-hyeon">포스터 방향을 선택해주세요</p>
           </div>
@@ -270,9 +268,7 @@ export default function PosterStudio() {
           <div className="flex items-center h-20">
             <div className="flex items-center justify-center flex-1">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full flex items-center justify-center">
-                  <i className="fas fa-theater-masks text-white text-xl"></i>
-                </div>
+                <div className="text-3xl">🖼️</div>
                 <div className="text-center">
                   <h1 className="text-3xl font-do-hyeon text-gray-800">뮤지컬 포스터 실험실</h1>
                   <p className="text-sm text-gray-600 font-do-hyeon">Musical Poster Studio</p>
@@ -284,14 +280,14 @@ export default function PosterStudio() {
                 onClick={() => {
                   if (window.confirm('모든 작업물이 사라집니다. 그래도 누르시겠습니까?')) {
                     resetPoster();
+                    setShowOrientationSelect(true);
                     toast({
                       title: "초기화 완료",
                       description: "모든 작업이 초기화되었습니다.",
                     });
                   }
                 }}
-                variant="outline"
-                className="little-prince-sunset text-white hover:bg-orange-500"
+                className="bg-orange-500 hover:bg-orange-600 text-white border-orange-500"
               >
                 <i className="fas fa-home mr-2"></i>처음으로
               </Button>

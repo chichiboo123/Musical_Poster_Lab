@@ -414,10 +414,11 @@ export default function PropertiesPanel({
                 <Button
                   onClick={() => {
                     if (canvasRef.current) {
-                      const canvasWidth = canvasRef.current.offsetWidth;
-                      const centerX = (canvasWidth - 100) / 2;
+                      const canvasRect = canvasRef.current.getBoundingClientRect();
+                      const elementWidth = selectedElement.type === 'text' ? 120 : 80;
+                      const centerX = (canvasRect.width - elementWidth) / 2;
                       onUpdateElement({
-                        position: { ...selectedElement.position, x: centerX }
+                        position: { ...selectedElement.position, x: Math.max(0, centerX) }
                       });
                     }
                   }}
@@ -623,6 +624,17 @@ export default function PropertiesPanel({
                   ].filter(Boolean);
                   
                   if (allInfo.length > 0) {
+                    // Clear existing performance info texts first
+                    const performanceTexts = elements?.filter(el => 
+                      el.type === 'text' && 
+                      el.style?.fontFamily === 'Noto Sans KR'
+                    ) || [];
+                    
+                    performanceTexts.forEach(el => {
+                      if (el.id) onRemoveElement(el.id);
+                    });
+                    
+                    // Add new texts with proper spacing
                     allInfo.forEach((info) => {
                       onAddText(info, true);
                     });
@@ -769,10 +781,11 @@ export default function PropertiesPanel({
               <Button
                 onClick={() => {
                   if (canvasRef.current) {
-                    const canvasWidth = canvasRef.current.offsetWidth;
-                    const centerX = (canvasWidth - 100) / 2;
+                    const canvasRect = canvasRef.current.getBoundingClientRect();
+                    const elementWidth = selectedElement.type === 'text' ? 120 : 80;
+                    const centerX = (canvasRect.width - elementWidth) / 2;
                     onUpdateElement({
-                      position: { ...selectedElement.position, x: centerX }
+                      position: { ...selectedElement.position, x: Math.max(0, centerX) }
                     });
                   }
                 }}

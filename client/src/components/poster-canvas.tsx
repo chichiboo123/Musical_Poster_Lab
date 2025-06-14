@@ -75,7 +75,10 @@ export default function PosterCanvas({
       <div 
         className="relative bg-gray-100 rounded-lg overflow-hidden" 
         style={{ 
-          paddingBottom: orientation === 'landscape' ? '70.71%' : '141.42%' 
+          width: '100%',
+          maxWidth: orientation === 'landscape' ? '600px' : '400px',
+          aspectRatio: orientation === 'landscape' ? '1.414/1' : '1/1.414',
+          margin: '0 auto'
         }}
       >
         <div
