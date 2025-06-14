@@ -8,7 +8,7 @@ const steps = [
   { number: 2, label: "텍스트", key: "text" },
   { number: 3, label: "주요이미지", key: "emoji" },
   { number: 4, label: "공연정보", key: "performance" },
-  { number: 5, label: "최종확인", key: "final" },
+  { number: 5, label: "내보내기", key: "export" },
 ];
 
 export default function ProgressSteps({ currentStep, onStepChange }: ProgressStepsProps) {

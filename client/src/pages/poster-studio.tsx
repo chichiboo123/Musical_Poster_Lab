@@ -78,6 +78,84 @@ export default function PosterStudio() {
     });
   };
 
+  const handleExportPNG = async () => {
+    if (!canvasRef.current) return;
+    
+    try {
+      const { exportToPNG } = await import('@/lib/poster-utils');
+      await exportToPNG(canvasRef.current);
+      toast({
+        title: "성공",
+        description: "PNG 파일이 다운로드되었습니다.",
+      });
+    } catch (error) {
+      toast({
+        title: "오류",
+        description: "PNG 내보내기에 실패했습니다.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleExportPDF = async () => {
+    if (!canvasRef.current) return;
+    
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF } = await import('jspdf');
+      
+      const canvas = await html2canvas(canvasRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: orientation === 'landscape' ? 'landscape' : 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+      
+      const imgWidth = orientation === 'landscape' ? 297 : 210;
+      const imgHeight = orientation === 'landscape' ? 210 : 297;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('poster.pdf');
+      
+      toast({
+        title: "성공",
+        description: "PDF 파일이 다운로드되었습니다.",
+      });
+    } catch (error) {
+      toast({
+        title: "오류",
+        description: "PDF 내보내기에 실패했습니다.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCopyToClipboard = async () => {
+    if (!canvasRef.current) return;
+    
+    try {
+      const { copyToClipboard } = await import('@/lib/poster-utils');
+      await copyToClipboard(canvasRef.current);
+      toast({
+        title: "성공",
+        description: "클립보드에 복사되었습니다.",
+      });
+    } catch (error) {
+      toast({
+        title: "오류",
+        description: "클립보드 복사에 실패했습니다.",
+        variant: "destructive",
+      });
+    }
+  };
+
 
 
   const isFirstStep = currentStep === 1;
@@ -124,65 +202,152 @@ export default function PosterStudio() {
           onStepChange={updateCurrentStep}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Tool Sidebar */}
-          <div className="lg:col-span-1">
-            <ToolSidebar
-              currentStep={currentStep}
-              background={background}
-              onBackgroundChange={updateBackground}
-              onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
-              onAddEmoji={() => handleAddEmoji()}
-              onAddImage={handleAddImage}
-            />
-          </div>
+        {currentStep === 1 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Canvas Area with Orientation Controls */}
+            <div className="lg:col-span-3">
+              <PosterCanvas
+                elements={elements}
+                background={background}
+                selectedElementId={selectedElementId}
+                onSelectElement={selectElement}
+                onUpdateElement={updateElement}
+                onDeleteElement={removeElement}
+                onDuplicateElement={(elementId) => {
+                  const element = elements.find(el => el.id === elementId);
+                  if (element) {
+                    const newElement = {
+                      ...element,
+                      position: { x: element.position.x + 20, y: element.position.y + 20 }
+                    };
+                    delete (newElement as any).id;
+                    addElement(newElement);
+                  }
+                }}
+                orientation={orientation}
+                onOrientationChange={setOrientation}
+              />
+            </div>
 
-          {/* Canvas Area */}
-          <div className="lg:col-span-2">
-            <PosterCanvas
-              elements={elements}
-              background={background}
-              selectedElementId={selectedElementId}
-              onSelectElement={selectElement}
-              onUpdateElement={updateElement}
-              onDeleteElement={removeElement}
-              onDuplicateElement={(elementId) => {
-                const element = elements.find(el => el.id === elementId);
-                if (element) {
-                  const newElement = {
-                    ...element,
-                    position: { x: element.position.x + 20, y: element.position.y + 20 }
-                  };
-                  delete (newElement as any).id;
-                  addElement(newElement);
-                }
-              }}
-              orientation={orientation}
-              onOrientationChange={setOrientation}
-            />
+            {/* Background Settings Panel */}
+            <div className="lg:col-span-1">
+              <ToolSidebar
+                currentStep={currentStep}
+                background={background}
+                onBackgroundChange={updateBackground}
+                onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
+                onAddEmoji={() => handleAddEmoji()}
+                onAddImage={handleAddImage}
+              />
+            </div>
           </div>
+        ) : currentStep === 5 ? (
+          <div className="space-y-6">
+            {/* Export Canvas Area */}
+            <div className="flex justify-center">
+              <div className="w-full max-w-2xl">
+                <PosterCanvas
+                  elements={elements}
+                  background={background}
+                  selectedElementId={null}
+                  onSelectElement={() => {}}
+                  onUpdateElement={() => {}}
+                  onDeleteElement={() => {}}
+                  onDuplicateElement={() => {}}
+                  orientation={orientation}
+                />
+              </div>
+            </div>
+            
+            {/* Export Buttons */}
+            <div className="flex justify-center space-x-4">
+              <Button 
+                onClick={handleExportPNG}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 text-lg"
+                size="lg"
+              >
+                <i className="fas fa-download mr-2"></i>
+                PNG 다운로드
+              </Button>
+              <Button 
+                onClick={handleExportPDF}
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 text-lg"
+                size="lg"
+              >
+                <i className="fas fa-file-pdf mr-2"></i>
+                PDF 다운로드
+              </Button>
+              <Button 
+                onClick={handleCopyToClipboard}
+                className="bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 text-lg"
+                size="lg"
+              >
+                <i className="fas fa-clipboard mr-2"></i>
+                클립보드 복사
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Tool Sidebar */}
+            <div className="lg:col-span-1">
+              <ToolSidebar
+                currentStep={currentStep}
+                background={background}
+                onBackgroundChange={updateBackground}
+                onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
+                onAddEmoji={() => handleAddEmoji()}
+                onAddImage={handleAddImage}
+              />
+            </div>
 
-          {/* Properties Panel */}
-          <div className="lg:col-span-1">
-            <PropertiesPanel
-              currentStep={currentStep}
-              selectedElement={selectedElement || null}
-              onUpdateElement={(updates) => {
-                if (selectedElementId) {
-                  updateElement(selectedElementId, updates);
-                }
-              }}
-              onAddEmoji={handleAddEmoji}
-              onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
-              onAddImage={handleAddImage}
-              onRemoveElement={removeElement}
-              canvasRef={canvasRef}
-              performanceInfo={performanceInfo}
-              onUpdatePerformanceInfo={updatePerformanceInfo}
-              onBackgroundChange={updateBackground}
-            />
+            {/* Canvas Area */}
+            <div className="lg:col-span-2">
+              <PosterCanvas
+                elements={elements}
+                background={background}
+                selectedElementId={selectedElementId}
+                onSelectElement={selectElement}
+                onUpdateElement={updateElement}
+                onDeleteElement={removeElement}
+                onDuplicateElement={(elementId) => {
+                  const element = elements.find(el => el.id === elementId);
+                  if (element) {
+                    const newElement = {
+                      ...element,
+                      position: { x: element.position.x + 20, y: element.position.y + 20 }
+                    };
+                    delete (newElement as any).id;
+                    addElement(newElement);
+                  }
+                }}
+                orientation={orientation}
+                onOrientationChange={setOrientation}
+              />
+            </div>
+
+            {/* Properties Panel */}
+            <div className="lg:col-span-1">
+              <PropertiesPanel
+                currentStep={currentStep}
+                selectedElement={selectedElement || null}
+                onUpdateElement={(updates) => {
+                  if (selectedElementId) {
+                    updateElement(selectedElementId, updates);
+                  }
+                }}
+                onAddEmoji={handleAddEmoji}
+                onAddText={(text, isPerformanceInfo) => handleAddText(text, isPerformanceInfo)}
+                onAddImage={handleAddImage}
+                onRemoveElement={removeElement}
+                canvasRef={canvasRef}
+                performanceInfo={performanceInfo}
+                onUpdatePerformanceInfo={updatePerformanceInfo}
+                onBackgroundChange={updateBackground}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Footer */}
