@@ -371,30 +371,22 @@ export const pastelColors = [
   '#FFF8DC', // Cornsilk
 ];
 
-// Google Fonts list for Korean typography
+// Font list with CSS classes
 export const googleFonts = [
-  { name: 'Gothic A1', korean: '고딕 A1', value: 'Gothic A1' },
-  { name: 'Black Han Sans', korean: '검은고딕', value: 'Black Han Sans' },
-  { name: 'Nanum Gothic', korean: '나눔고딕', value: 'Nanum Gothic' },
-  { name: 'Nanum Myeongjo', korean: '나눔명조', value: 'Nanum Myeongjo' },
-  { name: 'Gamja Flower', korean: '감자꽃마을', value: 'Gamja Flower' },
-  { name: 'Gaegu', korean: '개구쟁이', value: 'Gaegu' },
-  { name: 'Gugi', korean: '구기', value: 'Gugi' },
-  { name: 'Cute Font', korean: '귀여운 폰트', value: 'Cute Font' },
-  { name: 'Kirang Haerang', korean: '기랑해랑', value: 'Kirang Haerang' },
-  { name: 'Nanum Brush Script', korean: '나눔 손글씨 붓', value: 'Nanum Brush Script' },
-  { name: 'Nanum Pen Script', korean: '나눔 손글씨 펜', value: 'Nanum Pen Script' },
-  { name: 'East Sea Dokdo', korean: '대한민국독도', value: 'East Sea Dokdo' },
-  { name: 'Do Hyeon', korean: '도현', value: 'Do Hyeon' },
-  { name: 'Dokdo', korean: '독도', value: 'Dokdo' },
-  { name: 'Poor Story', korean: '서툰이야기', value: 'Poor Story' },
-  { name: 'Song Myung', korean: '송명', value: 'Song Myung' },
-  { name: 'Stylish', korean: '스타일리시', value: 'Stylish' },
-  { name: 'Yeon Sung', korean: '연성', value: 'Yeon Sung' },
-  { name: 'Jua', korean: '주아', value: 'Jua' },
-  { name: 'Hi Melody', korean: '하이멜로디', value: 'Hi Melody' },
-  { name: 'Sunflower', korean: '해바라기', value: 'Sunflower' },
-  { name: 'Black And White Picture', korean: '흑백사진', value: 'Black And White Picture' }
+  { name: 'Do Hyeon', korean: '도현체', value: 'Do Hyeon', className: 'do-hyeon-regular' },
+  { name: 'Black Han Sans', korean: '검은고딕', value: 'Black Han Sans', className: 'black-han-sans-regular' },
+  { name: 'Grandiflora One', korean: '그랜디플로라 원', value: 'Grandiflora One', className: 'grandiflora-one-regular' },
+  { name: 'Jua', korean: '주아체', value: 'Jua', className: 'jua-regular' },
+  { name: 'Dongle', korean: '동글체', value: 'Dongle', className: 'dongle-regular' },
+  { name: 'Gugi', korean: '구기체', value: 'Gugi', className: 'gugi-regular' },
+  { name: 'Black And White Picture', korean: '흑백사진체', value: 'Black And White Picture', className: 'black-and-white-picture-regular' },
+  { name: 'Gasoek One', korean: '가속 원', value: 'Gasoek One', className: 'gasoek-one-regular' },
+  { name: 'Yeon Sung', korean: '연성체', value: 'Yeon Sung', className: 'yeon-sung-regular' },
+  { name: 'Diphylleia', korean: '디필레아', value: 'Diphylleia', className: 'diphylleia-regular' },
+  { name: 'Kirang Haerang', korean: '키랑해랑', value: 'Kirang Haerang', className: 'kirang-haerang-regular' },
+  { name: 'Gaegu', korean: '개구체', value: 'Gaegu', className: 'gaegu-regular' },
+  { name: 'Noto Sans KR', korean: '노토산스 한국어', value: 'Noto Sans KR', className: 'noto-sans-kr-regular' },
+  { name: 'Chiron Sung HK', korean: '키론성 홍콩', value: 'Chiron Sung HK', className: 'chiron-sung-hk-regular' },
 ];
 
 // Text color presets

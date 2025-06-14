@@ -4,6 +4,93 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font Classes */
+.do-hyeon-regular {
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.black-han-sans-regular {
+  font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.grandiflora-one-regular {
+  font-family: "Grandiflora One", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.jua-regular {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.dongle-regular {
+  font-family: "Dongle", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gugi-regular {
+  font-family: "Gugi", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.black-and-white-picture-regular {
+  font-family: "Black And White Picture", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gasoek-one-regular {
+  font-family: "Gasoek One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.yeon-sung-regular {
+  font-family: "Yeon Sung", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.diphylleia-regular {
+  font-family: "Diphylleia", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kirang-haerang-regular {
+  font-family: "Kirang Haerang", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gaegu-regular {
+  font-family: "Gaegu", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.noto-sans-kr-regular {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.chiron-sung-hk-regular {
+  font-family: "Chiron Sung HK", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);

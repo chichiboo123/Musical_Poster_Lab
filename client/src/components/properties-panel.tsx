@@ -35,7 +35,7 @@ export default function PropertiesPanel({
   onUpdatePerformanceInfo
 }: PropertiesPanelProps) {
   const [emojiSearch, setEmojiSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('nature');
+  const [selectedCategory, setSelectedCategory] = useState('Expression');
   const [emojiPage, setEmojiPage] = useState(0);
   const { toast } = useToast();
 

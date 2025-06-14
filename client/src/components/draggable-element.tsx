@@ -91,7 +91,23 @@ export default function DraggableElement({
     >
       <div className="relative">
         {element.type === 'text' ? (
-          <span style={{ fontFamily: element.style.fontFamily || 'Do Hyeon' }}>{element.content}</span>
+          <span className={`${element.style.fontFamily === 'Do Hyeon' ? 'do-hyeon-regular' : 
+            element.style.fontFamily === 'Black Han Sans' ? 'black-han-sans-regular' :
+            element.style.fontFamily === 'Grandiflora One' ? 'grandiflora-one-regular' :
+            element.style.fontFamily === 'Jua' ? 'jua-regular' :
+            element.style.fontFamily === 'Dongle' ? 'dongle-regular' :
+            element.style.fontFamily === 'Gugi' ? 'gugi-regular' :
+            element.style.fontFamily === 'Black And White Picture' ? 'black-and-white-picture-regular' :
+            element.style.fontFamily === 'Gasoek One' ? 'gasoek-one-regular' :
+            element.style.fontFamily === 'Yeon Sung' ? 'yeon-sung-regular' :
+            element.style.fontFamily === 'Diphylleia' ? 'diphylleia-regular' :
+            element.style.fontFamily === 'Kirang Haerang' ? 'kirang-haerang-regular' :
+            element.style.fontFamily === 'Gaegu' ? 'gaegu-regular' :
+            element.style.fontFamily === 'Noto Sans KR' ? 'noto-sans-kr-regular' :
+            element.style.fontFamily === 'Chiron Sung HK' ? 'chiron-sung-hk-regular' :
+            'do-hyeon-regular'}`}>
+            {element.content}
+          </span>
         ) : element.type === 'image' ? (
           <img 
             src={element.content} 
